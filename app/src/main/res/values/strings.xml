@@ -1,3 +1,24 @@
 <resources>
     <string name="app_name">MyFood</string>
+    <string name="logo_description">Logo</string>
+    <string name="sign_up">регистрация</string>
+    <string name="log_in">авторизация</string>
+    <string name="background">Background</string>
+    <string name="your_email">Ваш email</string>
+    <string name="your_password">Ваш пароль</string>
+    <string name="your_school">Ваша школа</string>
+    <string name="your_class">Ваш класс</string>
+    <string name="your_name">Ваши инициалы</string>
+    <string name="your_ink">Ваш ИНК</string>
+    <string name="email_alert">Email должен быть заполненым!</string>
+    <string name="password_alert">Пароль должен быть заполненым!</string>
+    <string name="school_alert">Школа должна быть заполнена!</string>
+    <string name="name_alert">ФИО должно быть заполнено!</string>
+    <string name="class_alert">Класс должен быть заполнен!</string>
+    <string name="ink_alert">ИНК должен быть заполнен!</string>
+    <string name="type_account_first">дежурный</string>
+    <string name="type_account_second">питающийся</string>
+    <string name="type_accounts">типы аккаунтов</string>
+    <string name="about_first_type_account">Тип аккаунта \'Дежурный\' следует выбрать пользователю, который планирует получать заявки на питание от учеников</string>
+    <string name="about_second_type_account">Тип аккаунта \'Питающийся\' следует выбрать пользователю, который планирует отправлять заявки на питание каждый день</string>
 </resources>

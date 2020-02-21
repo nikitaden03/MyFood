@@ -1,14 +1,14 @@
 package com.example.myfood.abstracts.presenter;
 
-import android.view.View;
+import com.example.myfood.abstracts.view.BaseCompatActivity;
 
-public class BasePresenter implements BaseMvpPresenter {
+public class BasePresenter <T extends BaseCompatActivity> implements BaseMvpPresenter <T>{
 
-    private View view;
+    public T view;
     private boolean isAttached = false;
 
     @Override
-    public void attach(View view) {
+    public void attach(T view) {
         this.view = view;
         isAttached = true;
     }

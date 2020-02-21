@@ -1,0 +1,106 @@
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".components.login.ui.LoginFirstFragment"
+    android:paddingBottom="30dp"
+    android:paddingTop="30dp"
+    android:paddingRight="20dp"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/background_bitmap"
+    android:paddingLeft="20dp">
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/logo"
+        android:id="@+id/logo_image"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/sign_up_fields"
+        app:layout_constraintVertical_chainStyle="spread_inside"
+        android:contentDescription="@string/logo_description"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/sign_up_fields"
+        android:orientation="vertical"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/logo_image"
+        app:layout_constraintBottom_toTopOf="@id/sign_up_buttons">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#f50707"
+            android:textSize="15sp"
+            android:visibility="gone"
+            android:id="@+id/login_email_alert"/>
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/your_email"
+            android:background="@drawable/border_style"
+            android:padding="12dp"
+            android:layout_marginBottom="20dp"
+            android:inputType="textEmailAddress"
+            android:id="@+id/login_email"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#f50707"
+            android:textSize="15sp"
+            android:visibility="gone"
+            android:id="@+id/login_password_alert" />
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/your_password"
+            android:background="@drawable/border_style"
+            android:padding="12dp"
+            android:inputType="textPassword"
+            android:id="@+id/login_password"
+            app:passwordToggleEnabled="true"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:id="@+id/sign_up_buttons"
+        app:layout_constraintTop_toBottomOf="@id/sign_up_fields"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <com.google.android.material.button.MaterialButton
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/log_in"
+            android:backgroundTint="#FFB803"
+            android:textStyle="bold"
+            android:textColor="#000"
+            android:textSize="18sp"
+            android:id="@+id/button_login"
+            android:layout_marginBottom="20dp"/>
+
+        <ImageButton
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/back_arrow"
+            android:background="@android:color/transparent"
+            android:id="@+id/login_back_arrow"/>
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

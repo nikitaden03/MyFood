@@ -1,9 +1,9 @@
 package com.example.myfood.abstracts.presenter;
 
-import android.view.View;
+import com.example.myfood.abstracts.view.BaseCompatActivity;
 
-public interface BaseMvpPresenter {
+public interface BaseMvpPresenter <T extends BaseCompatActivity>{
     boolean isAttached = false;
-    void attach(View view);
+    void attach(T view);
     void detach();
 }
