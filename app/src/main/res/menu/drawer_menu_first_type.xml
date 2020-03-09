@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+
+        <item
+            android:id="@+id/menu_main"
+
+            android:title="@string/menu_main"/>
+
+        <item
+            android:id="@+id/menu_request_student"
+            android:title="@string/menu_request_students"/>
+
+        <item
+            android:id="@+id/menu_class_inform"
+            android:title="@string/menu_class_inform"/>
+
+        <item
+            android:id="@+id/menu_INK"
+            android:title="@string/menu_INK"/>
+
+        <item
+            android:id="@+id/menu_setting"
+            android:title="@string/menu_settings"/>
+
+    </group>
+
+</menu>

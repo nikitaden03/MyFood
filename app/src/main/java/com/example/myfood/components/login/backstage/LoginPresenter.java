@@ -1,12 +1,17 @@
 package com.example.myfood.components.login.backstage;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.util.Log;
 
+import com.example.myfood.CheckActivity;
 import com.example.myfood.R;
 import com.example.myfood.abstracts.presenter.BasePresenter;
 import com.example.myfood.components.login.ui.UiContract;
+
+import static android.content.Context.MODE_PRIVATE;
 
 public class LoginPresenter extends BasePresenter implements LoginContract.Presenter, AsynCallBack {
 
@@ -38,11 +43,12 @@ public class LoginPresenter extends BasePresenter implements LoginContract.Prese
     public void login(String email, String password) {
         UiContract.Fragments.LoginFragment fragment = (UiContract.Fragments.LoginFragment) ((LoginContract.View) view).getFragmentNow();
         fragment.hideAlerts();
-        if (email.matches("\\s*") || password.matches("\\s*")) {
+        if (email.matches("\\s*") || password.matches("\\s*") || !checkEmail(email)) {
             if (email.matches("\\s*")) {
                 fragment.showEmailAlert(view.getContext().getResources().getString(R.string.email_alert));
+            } else if (!checkEmail(email)) {
+                fragment.showEmailAlert(view.getContext().getResources().getString(R.string.email_uncorrect));
             }
-//          Код для проверки валидности почты
             if (password.matches("\\s*")) {
                 fragment.showPasswordAlert(view.getContext().getResources().getString(R.string.password_alert));
             }
@@ -57,11 +63,12 @@ public class LoginPresenter extends BasePresenter implements LoginContract.Prese
     public void signUpFirst(String email, String password, String school, String name, String numberClass) {
         UiContract.Fragments.SignUpFirstFragment fragment = (UiContract.Fragments.SignUpFirstFragment) ((LoginContract.View) view).getFragmentNow();
         fragment.hideAlerts();
-        if (email.matches("\\s*") || password.matches("\\s*") || school.matches("\\s*") || name.matches("\\s*") || numberClass.matches("\\s*")) {
+        if (email.matches("\\s*") || password.matches("\\s*") || school.matches("\\s*") || name.matches("\\s*") || numberClass.matches("\\s*") || !checkEmail(email)) {
             if (email.matches("\\s*")) {
                 fragment.showEmailAlert(view.getContext().getResources().getString(R.string.email_alert));
+            } else if (!checkEmail(email)) {
+                fragment.showEmailAlert(view.getContext().getResources().getString(R.string.email_uncorrect));
             }
-//          Код для проверки валидности почты
             if (password.matches("\\s*")) {
                 fragment.showPasswordAlert(view.getContext().getResources().getString(R.string.password_alert));
             }
@@ -85,11 +92,12 @@ public class LoginPresenter extends BasePresenter implements LoginContract.Prese
     public void signUpSecond(String email, String password, String name, String ink) {
         UiContract.Fragments.SignUpSecondFragment fragment = (UiContract.Fragments.SignUpSecondFragment) ((LoginContract.View) view).getFragmentNow();
         fragment.hideAlerts();
-        if (email.matches("\\s*") || password.matches("\\s*") || ink.matches("\\s*") || name.matches("\\s*")) {
+        if (email.matches("\\s*") || password.matches("\\s*") || ink.matches("\\s*") || name.matches("\\s*") || checkEmail(email)) {
             if (email.matches("\\s*")) {
                 fragment.showEmailAlert(view.getContext().getResources().getString(R.string.email_alert));
+            } else if (!checkEmail(email)) {
+                fragment.showEmailAlert(view.getContext().getResources().getString(R.string.email_uncorrect));
             }
-//          Код для проверки валидности почты
             if (password.matches("\\s*")) {
                 fragment.showPasswordAlert(view.getContext().getResources().getString(R.string.password_alert));
             }
@@ -111,7 +119,13 @@ public class LoginPresenter extends BasePresenter implements LoginContract.Prese
         switch (integer) {
             case 200:
                 Log.d("MYTAG", "200");
+                ((LoginContract.View) view).nextSceen();
         }
+    }
+
+    public boolean checkEmail(String email) {
+        return email.matches(
+                "(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|\"(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21\\x23-\\x5b\\x5d-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])*\")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21-\\x5a\\x53-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])+)\\])");
     }
 
     class AsyncLogin extends AsyncTask<String, Void, Integer> {
@@ -136,7 +150,7 @@ public class LoginPresenter extends BasePresenter implements LoginContract.Prese
         @Override
         protected Integer doInBackground(String... strings) {
             try {
-//              Общение с БД
+                // TODO Общение с БД
                 Thread.sleep(5000);
             } catch (InterruptedException e) {
                 e.printStackTrace();

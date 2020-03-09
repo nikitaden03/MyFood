@@ -1,0 +1,271 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.drawerlayout.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/main_drawer_layout"
+    tools:context=".components.mainScreen.ui.MainScreenActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/background_bitmap"
+        android:orientation="vertical"
+        android:padding="20dp">
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/menu"
+            android:background="#fff"
+            android:paddingStart="10dp"
+            android:paddingEnd="10dp"
+            android:paddingTop="3dp"
+            android:paddingBottom="3dp"
+            android:id="@+id/main_open_menu"
+            android:onClick="openMenu"
+            android:layout_weight="0"
+            />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:src="@drawable/logo"
+            android:id="@+id/main_logo"
+            android:layout_marginTop="20dp"
+            android:layout_gravity="center"
+            android:layout_weight="2"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:id="@+id/main_data_block"
+            android:layout_weight="15"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:layout_marginBottom="30dp"
+            >
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginBottom="20dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/name_data"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    android:textColor="#000"
+                    android:paddingEnd="5dp"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    android:textColor="#211160"
+                    android:id="@+id/main_name"
+                    tools:text="Иван Иванов Иванович"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginBottom="20dp"
+                >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/school_data"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    android:textColor="#000"
+                    android:paddingEnd="5dp"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    android:textColor="#211160"
+                    android:id="@+id/main_school"
+                    tools:text="156"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginBottom="20dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/class_data"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    android:textColor="#000"
+                    android:paddingEnd="5dp"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    android:textColor="#211160"
+                    android:id="@+id/main_class"
+                    tools:text="10A"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginBottom="20dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/price_breakfast_data"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    android:textColor="#000"
+                    android:paddingEnd="5dp"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    android:textColor="#211160"
+                    android:id="@+id/main_price_breakfast"
+                    tools:text="70р"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginBottom="20dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/price_teatime_data"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    android:textColor="#000"
+                    android:paddingEnd="5dp"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    android:textColor="#211160"
+                    android:id="@+id/main_price_teatime"
+                    tools:text="30р"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginBottom="20dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/price_lunch_data"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    android:textColor="#000"
+                    android:paddingEnd="5dp"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    android:textColor="#211160"
+                    android:id="@+id/main_price_lunch"
+                    tools:text="100р"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginBottom="20dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/type_account_data"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    android:textColor="#000"
+                    android:paddingEnd="5dp"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    android:textColor="#211160"
+                    android:id="@+id/main_type_account"
+                    tools:text="Питающийся"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/INK_data"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    android:textColor="#000"
+                    android:paddingEnd="5dp"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    android:textColor="#211160"
+                    android:id="@+id/main_INK"
+                    tools:text="89741239657"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+        
+    </LinearLayout>
+    
+    <com.google.android.material.navigation.NavigationView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        app:itemTextAppearance="@style/NavigationDrawerStyle"
+        android:id="@+id/navigationView"
+        app:headerLayout="@layout/menu_header"/>
+
+</androidx.drawerlayout.widget.DrawerLayout>

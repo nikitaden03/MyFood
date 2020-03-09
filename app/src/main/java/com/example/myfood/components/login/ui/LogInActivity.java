@@ -1,12 +1,15 @@
 package com.example.myfood.components.login.ui;
 
 import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.example.myfood.CheckActivity;
 import com.example.myfood.R;
 import com.example.myfood.abstracts.view.BaseCompatActivity;
 import com.example.myfood.components.login.backstage.LoginContract;
@@ -64,6 +67,15 @@ public class LogInActivity extends BaseCompatActivity implements LoginContract.V
     public void showSignUpFirstFragment() {
         fragment3 = new SignUpFirstFragment();
         replaceFragment(fragment3, true);
+    }
+
+    @Override
+    public void nextSceen() {
+        SharedPreferences sharedPreferences = getSharedPreferences("token", MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString("token", "t8988-147852369-aly852");
+        editor.apply();
+        startActivity(new Intent(this, CheckActivity.class));
     }
 
     @Override

@@ -1,6 +1,18 @@
 <resources>
     <string name="app_name">MyFood</string>
     <string name="logo_description">Logo</string>
+
+    <!--  Меню  -->
+
+    <string name="menu_main">ГЛАВНАЯ</string>
+    <string name="menu_request_students">ПИТАНИЕ УЧЕНИКОВ</string>
+    <string name="menu_class_inform">МОЙ КЛАСС</string>
+    <string name="menu_INK">МОЙ ИНК</string>
+    <string name="menu_settings">НАСТРОЙКИ</string>
+    <string name="menu_my_requests">МОЕ ПИТАНИЕ</string>
+
+    <!--  Авторизация / Регистрация  -->
+
     <string name="sign_up">регистрация</string>
     <string name="log_in">авторизация</string>
     <string name="background">Background</string>
@@ -11,6 +23,7 @@
     <string name="your_name">Ваши инициалы</string>
     <string name="your_ink">Ваш ИНК</string>
     <string name="email_alert">Email должен быть заполненым!</string>
+    <string name="email_uncorrect">Email должен быть коректен!</string>
     <string name="password_alert">Пароль должен быть заполненым!</string>
     <string name="school_alert">Школа должна быть заполнена!</string>
     <string name="name_alert">ФИО должно быть заполнено!</string>
@@ -21,4 +34,16 @@
     <string name="type_accounts">типы аккаунтов</string>
     <string name="about_first_type_account">Тип аккаунта \'Дежурный\' следует выбрать пользователю, который планирует получать заявки на питание от учеников</string>
     <string name="about_second_type_account">Тип аккаунта \'Питающийся\' следует выбрать пользователю, который планирует отправлять заявки на питание каждый день</string>
+
+    <!--  Главный экран  -->
+
+    <string name="name_data">ФИО: </string>
+    <string name="school_data">Школа :</string>
+    <string name="class_data">Класс: </string>
+    <string name="price_breakfast_data">Цена завтрака: </string>
+    <string name="price_lunch_data">Цена обеда: </string>
+    <string name="price_teatime_data">Цена полдника: </string>
+    <string name="type_account_data">Тип аккаунта: </string>
+    <string name="INK_data">ИНК:</string>
+
 </resources>
