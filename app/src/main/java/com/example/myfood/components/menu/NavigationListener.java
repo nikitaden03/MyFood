@@ -1,17 +1,25 @@
-package com.example.myfood.components;
+package com.example.myfood.components.menu;
 
 import android.content.Context;
 import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.example.myfood.R;
+import com.example.myfood.components.mainScreen.ui.MainScreenActivity;
+import com.example.myfood.components.settings.ui.SettingsActivity;
 
 public class NavigationListener {
 
-    public static void onNavigationItemSelected(MenuItem menuItem, Context context) {
+    MenuContract view;
+
+    public NavigationListener(MenuContract view) {
+        this.view = view;
+    }
+
+    public void onNavigationItemSelected(MenuItem menuItem, Context context) {
         switch (menuItem.getItemId()) {
             case R.id.menu_main:
-                Toast.makeText(context, "Main", Toast.LENGTH_SHORT).show();
+                view.showActivity(MainScreenActivity.class);
                 break;
             case R.id.menu_request_student:
                 Toast.makeText(context, "Food of pupils", Toast.LENGTH_SHORT).show();
@@ -23,12 +31,11 @@ public class NavigationListener {
                 Toast.makeText(context, "My INK", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.menu_setting:
-                Toast.makeText(context, "My Settings", Toast.LENGTH_SHORT).show();
+                view.showActivity(SettingsActivity.class);
                 break;
             case R.id.menu_my_food:
                 Toast.makeText(context, "My food", Toast.LENGTH_SHORT).show();
                 break;
         }
     }
-
 }

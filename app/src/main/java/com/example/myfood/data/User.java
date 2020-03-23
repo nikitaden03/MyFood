@@ -53,4 +53,16 @@ public class User implements Serializable {
     public boolean isChargable() {
         return isChargable;
     }
+
+    public void setPriceBreakfast(int priceBreakfast) {
+        this.priceBreakfast = priceBreakfast;
+    }
+
+    public void setPriceTeatime(int priceTeatime) {
+        this.priceTeatime = priceTeatime;
+    }
+
+    public void setPriceLunch(int priceLunch) {
+        this.priceLunch = priceLunch;
+    }
 }

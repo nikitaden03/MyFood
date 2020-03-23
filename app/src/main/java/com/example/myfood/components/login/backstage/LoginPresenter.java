@@ -92,7 +92,7 @@ public class LoginPresenter extends BasePresenter implements LoginContract.Prese
     public void signUpSecond(String email, String password, String name, String ink) {
         UiContract.Fragments.SignUpSecondFragment fragment = (UiContract.Fragments.SignUpSecondFragment) ((LoginContract.View) view).getFragmentNow();
         fragment.hideAlerts();
-        if (email.matches("\\s*") || password.matches("\\s*") || ink.matches("\\s*") || name.matches("\\s*") || checkEmail(email)) {
+        if (email.matches("\\s*") || password.matches("\\s*") || ink.matches("\\s*") || name.matches("\\s*") || !checkEmail(email)) {
             if (email.matches("\\s*")) {
                 fragment.showEmailAlert(view.getContext().getResources().getString(R.string.email_alert));
             } else if (!checkEmail(email)) {
@@ -139,6 +139,7 @@ public class LoginPresenter extends BasePresenter implements LoginContract.Prese
 
         @Override
         protected void onPreExecute() {
+            Log.d("MYTAG", "onPreExecute");
             super.onPreExecute();
             progressDialog = new ProgressDialog(view);
             progressDialog.setTitle("Пожалуйста, подождите");

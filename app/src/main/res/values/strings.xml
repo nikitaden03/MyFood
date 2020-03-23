@@ -46,4 +46,13 @@
     <string name="type_account_data">Тип аккаунта: </string>
     <string name="INK_data">ИНК:</string>
 
+    <!--  Настройки  -->
+
+    <string name="save">СОХРАНИТЬ</string>
+    <string name="leave">ВЫЙТИ</string>
+    <string name="settings_breakfast_empty_alert">Цена завтрака не должна быть пустой</string>
+    <string name="settings_lunch_empty_alert">Цена обеда не должна быть пустой</string>
+    <string name="settings_teatime_empty_alert">Цена полдника не должна быть пустой</string>
+    <string name="settings_format_data_alert">В данном поле должно быть число и буква р</string>
+
 </resources>

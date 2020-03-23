@@ -1,6 +1,7 @@
 package com.example.myfood.components.mainScreen.ui;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -12,32 +13,35 @@ import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.example.myfood.R;
 import com.example.myfood.abstracts.view.BaseCompatActivity;
-import com.example.myfood.components.NavigationListener;
+import com.example.myfood.components.menu.MenuContract;
+import com.example.myfood.components.menu.NavigationListener;
 import com.example.myfood.components.mainScreen.backstage.MainContract;
 import com.example.myfood.components.mainScreen.backstage.MainPresenter;
 import com.example.myfood.data.User;
 import com.google.android.material.navigation.NavigationView;
 
-public class MainScreenActivity extends BaseCompatActivity implements MainContract.View {
+public class MainScreenActivity extends BaseCompatActivity implements MainContract.View, MenuContract {
 
     MainPresenter presenter;
     DrawerLayout drawerLayout;
     NavigationView navigationView;
+    User user;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_screen);
-        User user = (User) getIntent().getSerializableExtra("UserClass");
+        user = (User) getIntent().getSerializableExtra("UserClass");
         presenter = new MainPresenter();
         presenter.attach(this);
         drawerLayout = findViewById(R.id.main_drawer_layout);
         navigationView = findViewById(R.id.navigationView);
+        final NavigationListener navigationListener = new NavigationListener(this);
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                NavigationListener.onNavigationItemSelected(item, getApplicationContext());
+                navigationListener.onNavigationItemSelected(item, getApplicationContext());
                 return false;
             }
         });
@@ -72,4 +76,10 @@ public class MainScreenActivity extends BaseCompatActivity implements MainContra
         }
     }
 
+    @Override
+    public void showActivity(Class cl) {
+        Intent intent = new Intent(getApplicationContext(), cl);
+        intent.putExtra("UserClass", user);
+        startActivity(intent);
+    }
 }
