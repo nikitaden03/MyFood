@@ -26,9 +26,12 @@
     <string name="email_uncorrect">Email должен быть коректен!</string>
     <string name="password_alert">Пароль должен быть заполненым!</string>
     <string name="school_alert">Школа должна быть заполнена!</string>
+    <string name="school_format_alert">Введите только номер школы!</string>
     <string name="name_alert">ФИО должно быть заполнено!</string>
+    <string name="class_format_alert">Введите номер класса и его букву!</string>
     <string name="class_alert">Класс должен быть заполнен!</string>
     <string name="ink_alert">ИНК должен быть заполнен!</string>
+    <string name="ink_format_alert">ИНК должен состоять только из 8 цифр!</string>
     <string name="type_account_first">дежурный</string>
     <string name="type_account_second">питающийся</string>
     <string name="type_accounts">типы аккаунтов</string>

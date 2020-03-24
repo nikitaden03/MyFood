@@ -72,11 +72,17 @@ public class LoginPresenter extends BasePresenter implements LoginContract.Prese
             if (password.matches("\\s*")) {
                 fragment.showPasswordAlert(view.getContext().getResources().getString(R.string.password_alert));
             }
+            if (!school.matches("^\\d+$")) {
+                fragment.showSchoolAlert(view.getContext().getResources().getString(R.string.school_format_alert));
+            }
             if (school.matches("\\s*")) {
                 fragment.showSchoolAlert(view.getContext().getResources().getString(R.string.school_alert));
             }
             if (name.matches("\\s*")) {
                 fragment.showNameAlert(view.getContext().getResources().getString(R.string.name_alert));
+            }
+            if (!numberClass.matches("^\\d{1,2}[А-Я]$")) {
+                fragment.showClassAlert(view.getContext().getResources().getString(R.string.class_format_alert));
             }
             if (numberClass.matches("\\s*")) {
                 fragment.showClassAlert(view.getContext().getResources().getString(R.string.class_alert));
@@ -103,6 +109,9 @@ public class LoginPresenter extends BasePresenter implements LoginContract.Prese
             }
             if (name.matches("\\s*")) {
                 fragment.showNameAlert(view.getContext().getResources().getString(R.string.name_alert));
+            }
+            if (!ink.matches("^\\d{8}$")) {
+                fragment.showInkAlert(view.getContext().getResources().getString(R.string.ink_format_alert));
             }
             if (ink.matches("\\s*")) {
                 fragment.showInkAlert(view.getContext().getResources().getString(R.string.ink_alert));

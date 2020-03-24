@@ -33,23 +33,6 @@ public class SettingsPresenter extends BasePresenter implements SettingsContract
                 lunch = activity.getLunchPrice();
                 teatime = activity.getTeatimePrice();
 
-                // Проверка на пустоту
-
-                if (breakfast.matches("\\s*")) {
-                    activity.showBreakfastPriceAlert(resources.getString(R.string.settings_breakfast_empty_alert));
-                    dataCorrect = false;
-                }
-
-                if (lunch.matches("\\s*")) {
-                    activity.showLunchPriceAlert(resources.getString(R.string.settings_lunch_empty_alert));
-                    dataCorrect = false;
-                }
-
-                if (teatime.matches("\\s*")) {
-                    activity.showTeatimePriceAlert(resources.getString(R.string.settings_teatime_empty_alert));
-                    dataCorrect = false;
-                }
-
                 // Проверка на соотвествие число+р
 
                 if (!breakfast.matches("^\\d{2,4}р$")) {
@@ -64,6 +47,23 @@ public class SettingsPresenter extends BasePresenter implements SettingsContract
 
                 if (!teatime.matches("^\\d{2,4}р$")) {
                     activity.showTeatimePriceAlert(resources.getString(R.string.settings_format_data_alert));
+                    dataCorrect = false;
+                }
+
+                // Проверка на пустоту
+
+                if (breakfast.matches("\\s*")) {
+                    activity.showBreakfastPriceAlert(resources.getString(R.string.settings_breakfast_empty_alert));
+                    dataCorrect = false;
+                }
+
+                if (lunch.matches("\\s*")) {
+                    activity.showLunchPriceAlert(resources.getString(R.string.settings_lunch_empty_alert));
+                    dataCorrect = false;
+                }
+
+                if (teatime.matches("\\s*")) {
+                    activity.showTeatimePriceAlert(resources.getString(R.string.settings_teatime_empty_alert));
                     dataCorrect = false;
                 }
 
