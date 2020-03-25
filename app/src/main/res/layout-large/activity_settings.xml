@@ -141,7 +141,6 @@
         android:layout_gravity="start"
         app:itemTextAppearance="@style/NavigationDrawerStyle"
         android:id="@+id/navigationView"
-        app:menu="@menu/drawer_menu_first_type"
         app:headerLayout="@layout/menu_header"/>
 
 </androidx.drawerlayout.widget.DrawerLayout>

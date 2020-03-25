@@ -1,14 +1,11 @@
 package com.example.myfood.components.settings.backstage;
 
 import android.app.ProgressDialog;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.os.AsyncTask;
-import android.util.Log;
 import android.view.View;
 
-import com.example.myfood.CheckActivity;
 import com.example.myfood.R;
 import com.example.myfood.abstracts.presenter.BasePresenter;
 import com.example.myfood.data.User;

@@ -58,6 +58,11 @@ public class SettingsActivity extends BaseCompatActivity implements SettingsCont
                 return false;
             }
         });
+        if (user.isChargable()) {
+            ((NavigationView)findViewById(R.id.navigationView)).inflateMenu(R.menu.drawer_menu_first_type);
+        } else {
+            ((NavigationView)findViewById(R.id.navigationView)).inflateMenu(R.menu.drawer_menu_second_type);
+        }
         setPriceData(user);
     }
 
