@@ -66,7 +66,11 @@ public class MainScreenActivity extends BaseCompatActivity implements MainContra
         ((TextView)findViewById(R.id.main_price_breakfast)).setText(user.getPriceBreakfast() + "р");
         ((TextView)findViewById(R.id.main_price_teatime)).setText(user.getPriceTeatime() + "р");
         ((TextView)findViewById(R.id.main_price_lunch)).setText(user.getPriceLunch() + "р");
-        ((TextView)findViewById(R.id.main_INK)).setText(user.getINK()+"");
+        if (user.getINK() != 0) {
+            ((TextView) findViewById(R.id.main_INK)).setText(Integer.toString(user.getINK()));
+        } else {
+            ((TextView) findViewById(R.id.main_INK)).setText("Отсутствует");
+        }
         if (user.isChargable()) {
             ((TextView)findViewById(R.id.main_type_account)).setText("Дежурный");
             ((NavigationView)findViewById(R.id.navigationView)).inflateMenu(R.menu.drawer_menu_first_type);

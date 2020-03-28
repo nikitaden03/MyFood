@@ -7,6 +7,7 @@ import android.widget.Toast;
 import com.example.myfood.R;
 import com.example.myfood.components.mainScreen.ui.MainScreenActivity;
 import com.example.myfood.components.myClassInfo.ui.MyClassActivity;
+import com.example.myfood.components.myINK.ui.MyInkActivity;
 import com.example.myfood.components.settings.ui.SettingsActivity;
 
 public class NavigationListener {
@@ -29,7 +30,7 @@ public class NavigationListener {
                 view.showActivity(MyClassActivity.class);
                 break;
             case R.id.menu_INK:
-                Toast.makeText(context, "My INK", Toast.LENGTH_SHORT).show();
+                view.showActivity(MyInkActivity.class);
                 break;
             case R.id.menu_setting:
                 view.showActivity(SettingsActivity.class);

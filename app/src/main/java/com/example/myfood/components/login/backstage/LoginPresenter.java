@@ -1,17 +1,12 @@
 package com.example.myfood.components.login.backstage;
 
 import android.app.ProgressDialog;
-import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.util.Log;
 
-import com.example.myfood.CheckActivity;
 import com.example.myfood.R;
 import com.example.myfood.abstracts.presenter.BasePresenter;
 import com.example.myfood.components.login.ui.UiContract;
-
-import static android.content.Context.MODE_PRIVATE;
 
 public class LoginPresenter extends BasePresenter implements LoginContract.Presenter, AsynCallBack {
 

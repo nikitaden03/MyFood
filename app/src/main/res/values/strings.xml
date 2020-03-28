@@ -58,4 +58,10 @@
     <string name="settings_teatime_empty_alert">Цена полдника не должна быть пустой</string>
     <string name="settings_format_data_alert">В данном поле должно быть число и буква р</string>
 
+    <!--  ИНК Класс  -->
+
+    <string name="copy">СКОПИРОВАТЬ</string>
+    <string name="copy_successful">Ваш ИНК скопирован!</string>
+    <string name="ink_empty">ВЫ НЕ ЗАПОЛНИЛИ НАСТРОЙКИ</string>
+
 </resources>
