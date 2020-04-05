@@ -64,4 +64,8 @@
     <string name="copy_successful">Ваш ИНК скопирован!</string>
     <string name="ink_empty">ВЫ НЕ ЗАПОЛНИЛИ НАСТРОЙКИ</string>
 
+    <!--  Еда  -->
+
+    <string name="food_alert">Результаты придут после 8:00</string>
+
 </resources>

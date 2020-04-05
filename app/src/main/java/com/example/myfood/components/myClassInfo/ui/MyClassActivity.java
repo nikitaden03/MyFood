@@ -78,7 +78,7 @@ public class MyClassActivity extends BaseCompatActivity implements MyClassContra
         ListView listView = findViewById(R.id.classInfo_list_view);
         ArrayList<String> arrayList = presenter.getInformMyClass(user);
         ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(this, R.layout.my_class_list, arrayList);
-        ((TextView) findViewById(R.id.classInfo_count)).setText("ВСЕГО: " + arrayList.size() + " УЧЕНИКОВ");
+        ((TextView) findViewById(R.id.food_count)).setText("ВСЕГО: " + arrayList.size() + " УЧЕНИКОВ");
         listView.setAdapter(arrayAdapter);
     }
 

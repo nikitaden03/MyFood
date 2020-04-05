@@ -9,6 +9,7 @@ import com.example.myfood.components.mainScreen.ui.MainScreenActivity;
 import com.example.myfood.components.myClassInfo.ui.MyClassActivity;
 import com.example.myfood.components.myINK.ui.MyInkActivity;
 import com.example.myfood.components.settings.ui.SettingsActivity;
+import com.example.myfood.components.teacherFood.ui.TeacherFoodActivity;
 
 public class NavigationListener {
 
@@ -24,7 +25,7 @@ public class NavigationListener {
                 view.showActivity(MainScreenActivity.class);
                 break;
             case R.id.menu_request_student:
-                Toast.makeText(context, "Food of pupils", Toast.LENGTH_SHORT).show();
+                view.showActivity(TeacherFoodActivity.class);
                 break;
             case R.id.menu_class_inform:
                 view.showActivity(MyClassActivity.class);
