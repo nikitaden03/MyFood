@@ -44,6 +44,8 @@ public class TeacherFoodActivity extends BaseCompatActivity implements TeacherFo
         presenter = new TeacherFoodPresenter();
         presenter.attach(this);
 
+        checkSession();
+
         drawerLayout = findViewById(R.id.main_drawer_layout);
         navigationView = findViewById(R.id.navigationView);
         user = (User)getIntent().getSerializableExtra("UserClass");
@@ -142,6 +144,18 @@ public class TeacherFoodActivity extends BaseCompatActivity implements TeacherFo
             back.setImageResource(R.drawable.back_previous_lite);
             back.setEnabled(false);
         }
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        checkSession();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        checkSession();
     }
 
     class MyAdapter extends ArrayAdapter<String[]> {

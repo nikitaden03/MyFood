@@ -35,6 +35,8 @@ public class MyInkActivity extends BaseCompatActivity implements MyInkContract.V
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_ink);
 
+        checkSession();
+
         presenter= new MyInkPresenter();
         presenter.attach(this);
 
@@ -93,5 +95,17 @@ public class MyInkActivity extends BaseCompatActivity implements MyInkContract.V
         Intent intent = new Intent(getApplicationContext(), cl);
         intent.putExtra("UserClass", user);
         startActivity(intent);
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        checkSession();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        checkSession();
     }
 }

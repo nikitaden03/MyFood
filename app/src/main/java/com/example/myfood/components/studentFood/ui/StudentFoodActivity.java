@@ -43,6 +43,8 @@ public class StudentFoodActivity extends BaseCompatActivity implements StudentFo
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_student_food);
 
+        checkSession();
+
         drawerLayout = findViewById(R.id.main_drawer_layout);
         navigationView = findViewById(R.id.navigationView);
         user = (User)getIntent().getSerializableExtra("UserClass");
@@ -162,5 +164,17 @@ public class StudentFoodActivity extends BaseCompatActivity implements StudentFo
         String lunch = this.lunch.isChecked()?"1":"0";
         presenter.sendFood(breakfast, teatime, lunch);
 
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        checkSession();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        checkSession();
     }
 }

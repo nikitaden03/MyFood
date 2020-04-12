@@ -36,6 +36,8 @@ public class MyClassActivity extends BaseCompatActivity implements MyClassContra
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_class);
 
+        checkSession();
+
         presenter = new MyClassPresenter();
         presenter.attach(this);
 
@@ -85,5 +87,17 @@ public class MyClassActivity extends BaseCompatActivity implements MyClassContra
     @Override
     public Context getContext() {
         return this;
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        checkSession();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        checkSession();
     }
 }

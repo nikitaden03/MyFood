@@ -37,6 +37,9 @@ public class SettingsActivity extends BaseCompatActivity implements SettingsCont
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
+
+        checkSession();
+
         presenter = new SettingsPresenter();
         presenter.attach(this);
 
@@ -165,5 +168,16 @@ public class SettingsActivity extends BaseCompatActivity implements SettingsCont
         user.setPriceLunch(c);
     }
 
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        checkSession();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        checkSession();
+    }
 
 }

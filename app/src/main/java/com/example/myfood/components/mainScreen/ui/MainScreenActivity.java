@@ -32,6 +32,9 @@ public class MainScreenActivity extends BaseCompatActivity implements MainContra
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_screen);
+
+        checkSession();
+
         user = (User) getIntent().getSerializableExtra("UserClass");
         presenter = new MainPresenter();
         presenter.attach(this);
@@ -85,5 +88,17 @@ public class MainScreenActivity extends BaseCompatActivity implements MainContra
         Intent intent = new Intent(getApplicationContext(), cl);
         intent.putExtra("UserClass", user);
         startActivity(intent);
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        checkSession();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        checkSession();
     }
 }
