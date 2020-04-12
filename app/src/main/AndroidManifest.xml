@@ -10,7 +10,8 @@
         android:screenOrientation="portrait"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".components.teacherFood.ui.TeacherFoodActivity"></activity>
+        <activity android:name=".components.studentFood.ui.StudentFoodActivity"></activity>
+        <activity android:name=".components.teacherFood.ui.TeacherFoodActivity" />
         <activity android:name=".components.myINK.ui.MyInkActivity" />
         <activity android:name=".components.myClassInfo.ui.MyClassActivity" />
         <activity android:name=".components.settings.ui.SettingsActivity" />

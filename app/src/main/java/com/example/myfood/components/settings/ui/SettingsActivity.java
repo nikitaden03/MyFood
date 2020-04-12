@@ -63,6 +63,15 @@ public class SettingsActivity extends BaseCompatActivity implements SettingsCont
         } else {
             ((NavigationView)findViewById(R.id.navigationView)).inflateMenu(R.menu.drawer_menu_second_type);
         }
+
+        if (!user.isChargable()) {
+            priceBreakfast.setEnabled(false);
+            priceTeatime.setEnabled(false);
+            priceLunch.setEnabled(false);
+            (findViewById(R.id.settings_save_button)).setEnabled(false);
+            (findViewById(R.id.settings_save_button)).setBackgroundColor(Color.parseColor("#B8A575"));
+        }
+
         setPriceData(user);
     }
 

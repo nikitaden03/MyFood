@@ -1,23 +1,22 @@
-package com.example.myfood.components.teacherFood.backstage;
+package com.example.myfood.components.studentFood.backstage;
 
 import com.example.myfood.abstracts.presenter.BaseMvpPresenter;
 import com.example.myfood.abstracts.view.BaseMvpView;
 
-import java.util.ArrayList;
-
-public interface TeacherFoodContract {
+public interface StudentFoodContract {
     interface Presenter extends BaseMvpPresenter {
-        ArrayList<String[]> getData();
         Boolean hasNext();
         Boolean hasPrevious();
         String getCurrentMonth();
         String getCursor();
         void cursorUp();
         void cursorDown();
+        String[] getData();
+        void sendFood(String breakfast, String teatime, String lunch);
+        Boolean hasTodayData();
     }
     interface View extends BaseMvpView {
         void openMenu(android.view.View view);
-        void setFoodList();
         void changeButton();
     }
 }

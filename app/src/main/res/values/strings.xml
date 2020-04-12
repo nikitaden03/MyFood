@@ -67,5 +67,9 @@
     <!--  Еда  -->
 
     <string name="food_alert">Результаты придут после 8:00</string>
+    <string name="breakfast">Завтрак</string>
+    <string name="lunch">Обед</string>
+    <string name="teaTime">Полдник</string>
+    <string name="send_food">ОТПРАВИТЬ</string>
 
 </resources>

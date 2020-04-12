@@ -53,16 +53,6 @@ public class TeacherFoodPresenter extends BasePresenter implements TeacherFoodCo
     }
 
     @Override
-    public ArrayList<String[]> getDataNext() {
-        return null;
-    }
-
-    @Override
-    public ArrayList<String[]> getDataPrevious() {
-        return null;
-    }
-
-    @Override
     public Boolean hasNext() {
         return cursor < calendar.get(Calendar.DAY_OF_MONTH);
     }
@@ -163,11 +153,104 @@ public class TeacherFoodPresenter extends BasePresenter implements TeacherFoodCo
         treeMap3.put("Иван Иванов8", new String[]{"0", "0", "1"});
         treeMap3.put("Иван Иванов9", new String[]{"0", "1", "1"});
 
+        TreeMap<String, String[]> treeMap4 = new TreeMap<>();
+        treeMap4.put("Иван Сидоров", new String[]{"0", "1", "1"});
+        treeMap4.put("Иван Сидоров1", new String[]{"1", "1", "1"});
+        treeMap4.put("Иван Сидоров2", new String[]{"1", "0", "1"});
+        treeMap4.put("Иван Сидоров3", new String[]{"0", "1", "1"});
+        treeMap4.put("Иван Сидоров4", new String[]{"0", "0", "1"});
+        treeMap4.put("Иван Сидоров5", new String[]{"0", "0", "0"});
+        treeMap4.put("Иван Сидоров6", new String[]{"1", "0", "0"});
+        treeMap4.put("Иван Сидоров7", new String[]{"0", "1", "1"});
+        treeMap4.put("Иван Сидоров8", new String[]{"0", "0", "1"});
+        treeMap4.put("Иван Сидоров9", new String[]{"0", "1", "1"});
+
+        TreeMap<String, String[]> treeMap5 = new TreeMap<>();
+        treeMap5.put("Иван Сидоров", new String[]{"0", "1", "1"});
+        treeMap5.put("Иван Сидоров1", new String[]{"1", "1", "1"});
+        treeMap5.put("Иван Сидоров2", new String[]{"1", "0", "1"});
+        treeMap5.put("Иван Сидоров3", new String[]{"0", "1", "1"});
+        treeMap5.put("Иван Сидоров4", new String[]{"0", "0", "1"});
+        treeMap5.put("Иван Сидоров5", new String[]{"0", "0", "0"});
+        treeMap5.put("Иван Сидоров6", new String[]{"1", "0", "0"});
+        treeMap5.put("Иван Сидоров7", new String[]{"0", "1", "1"});
+        treeMap5.put("Иван Сидоров8", new String[]{"0", "0", "1"});
+        treeMap5.put("Иван Сидоров9", new String[]{"0", "1", "1"});
+
+        TreeMap<String, String[]> treeMap6 = new TreeMap<>();
+        treeMap6.put("Иван Сидоров", new String[]{"0", "1", "1"});
+        treeMap6.put("Иван Сидоров1", new String[]{"1", "1", "1"});
+        treeMap6.put("Иван Сидоров2", new String[]{"1", "0", "1"});
+        treeMap6.put("Иван Сидоров3", new String[]{"0", "1", "1"});
+        treeMap6.put("Иван Сидоров4", new String[]{"0", "0", "1"});
+        treeMap6.put("Иван Сидоров5", new String[]{"0", "0", "0"});
+        treeMap6.put("Иван Сидоров6", new String[]{"1", "0", "0"});
+        treeMap6.put("Иван Сидоров7", new String[]{"0", "1", "1"});
+        treeMap6.put("Иван Сидоров8", new String[]{"0", "0", "1"});
+        treeMap6.put("Иван Сидоров9", new String[]{"0", "1", "1"});
+
+        TreeMap<String, String[]> treeMap7 = new TreeMap<>();
+        treeMap7.put("Иван Сидоров", new String[]{"0", "1", "1"});
+        treeMap7.put("Иван Сидоров1", new String[]{"1", "1", "1"});
+        treeMap7.put("Иван Сидоров2", new String[]{"1", "0", "1"});
+        treeMap7.put("Иван Сидоров3", new String[]{"0", "1", "1"});
+        treeMap7.put("Иван Сидоров4", new String[]{"0", "0", "1"});
+        treeMap7.put("Иван Сидоров5", new String[]{"0", "0", "0"});
+        treeMap7.put("Иван Сидоров6", new String[]{"1", "0", "0"});
+        treeMap7.put("Иван Сидоров7", new String[]{"0", "1", "1"});
+        treeMap7.put("Иван Сидоров8", new String[]{"0", "0", "1"});
+        treeMap7.put("Иван Сидоров9", new String[]{"0", "1", "1"});
+
+        TreeMap<String, String[]> treeMap8 = new TreeMap<>();
+        treeMap8.put("Иван Сидоров", new String[]{"0", "1", "1"});
+        treeMap8.put("Иван Сидоров1", new String[]{"1", "1", "1"});
+        treeMap8.put("Иван Сидоров2", new String[]{"1", "0", "1"});
+        treeMap8.put("Иван Сидоров3", new String[]{"0", "1", "1"});
+        treeMap8.put("Иван Сидоров4", new String[]{"0", "0", "1"});
+        treeMap8.put("Иван Сидоров5", new String[]{"0", "0", "0"});
+        treeMap8.put("Иван Сидоров6", new String[]{"1", "0", "0"});
+        treeMap8.put("Иван Сидоров7", new String[]{"0", "1", "1"});
+        treeMap8.put("Иван Сидоров8", new String[]{"0", "0", "1"});
+        treeMap8.put("Иван Сидоров9", new String[]{"0", "1", "1"});
+
+        TreeMap<String, String[]> treeMap9 = new TreeMap<>();
+        treeMap9.put("Иван Сидоров", new String[]{"0", "1", "1"});
+        treeMap9.put("Иван Сидоров1", new String[]{"1", "1", "1"});
+        treeMap9.put("Иван Сидоров2", new String[]{"1", "0", "1"});
+        treeMap9.put("Иван Сидоров3", new String[]{"0", "1", "1"});
+        treeMap9.put("Иван Сидоров4", new String[]{"0", "0", "1"});
+        treeMap9.put("Иван Сидоров5", new String[]{"0", "0", "0"});
+        treeMap9.put("Иван Сидоров6", new String[]{"1", "0", "0"});
+        treeMap9.put("Иван Сидоров7", new String[]{"0", "1", "1"});
+        treeMap9.put("Иван Сидоров8", new String[]{"0", "0", "1"});
+        treeMap9.put("Иван Сидоров9", new String[]{"0", "1", "1"});
+
+        TreeMap<String, String[]> treeMap10 = new TreeMap<>();
+        treeMap10.put("Иван Сидоров", new String[]{"0", "1", "1"});
+        treeMap10.put("Иван Сидоров1", new String[]{"1", "1", "1"});
+        treeMap10.put("Иван Сидоров2", new String[]{"1", "0", "1"});
+        treeMap10.put("Иван Сидоров3", new String[]{"0", "1", "1"});
+        treeMap10.put("Иван Сидоров4", new String[]{"0", "0", "1"});
+        treeMap10.put("Иван Сидоров5", new String[]{"0", "0", "0"});
+        treeMap10.put("Иван Сидоров6", new String[]{"1", "0", "0"});
+        treeMap10.put("Иван Сидоров7", new String[]{"0", "1", "1"});
+        treeMap10.put("Иван Сидоров8", new String[]{"0", "0", "1"});
+        treeMap10.put("Иван Сидоров9", new String[]{"0", "1", "1"});
+
         LinkedList<TreeMap<String, String[]>> fakeData = new LinkedList<>();
         fakeData.add(treeMap);
         fakeData.add(treeMap1);
         fakeData.add(treeMap2);
         fakeData.add(treeMap3);
+        fakeData.add(treeMap4);
+        fakeData.add(treeMap5);
+        fakeData.add(treeMap6);
+        fakeData.add(treeMap7);
+        fakeData.add(treeMap8);
+        fakeData.add(treeMap9);
+        fakeData.add(treeMap10);
+        fakeData.add(treeMap);
+
         return fakeData;
     }
 }

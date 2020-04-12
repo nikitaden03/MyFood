@@ -27,7 +27,7 @@ public class CheckActivity extends AppCompatActivity {
 
             //TODO Делаем запрос в бд, получаем базовую информацию описанною классом USER
 
-            User user = new User(1, "Иван Иванов Ярославович", "156", "10A", 70, 50, 90, 75321598, true);
+            User user = new User(1, "Иван Иванов Ярославович", "156", "10A", 70, 50, 90, 75321598,  false);
 
             intent = new Intent(this, MainScreenActivity.class);
             intent.putExtra("UserClass", user);
