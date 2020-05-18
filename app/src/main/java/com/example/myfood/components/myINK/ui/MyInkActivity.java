@@ -1,7 +1,6 @@
 package com.example.myfood.components.myINK.ui;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
@@ -20,7 +19,7 @@ import com.example.myfood.components.menu.MenuContract;
 import com.example.myfood.components.menu.NavigationListener;
 import com.example.myfood.components.myINK.backstage.MyInkContract;
 import com.example.myfood.components.myINK.backstage.MyInkPresenter;
-import com.example.myfood.data.User;
+import com.example.myfood.data.models.User;
 import com.google.android.material.navigation.NavigationView;
 
 public class MyInkActivity extends BaseCompatActivity implements MyInkContract.View, MenuContract {
@@ -66,7 +65,7 @@ public class MyInkActivity extends BaseCompatActivity implements MyInkContract.V
             }
         });
 
-        if (user.getINK() != 0) {
+        if (user.getPriceBreakfast() != 0 && user.getPriceLunch() != 0 && user.getPriceTeatime() != 0) {
             ((TextView) findViewById(R.id.ink_label)).setText(Integer.toString(user.getINK()));
         } else {
             ((TextView) findViewById(R.id.ink_label)).setText(getResources().getString(R.string.ink_empty));

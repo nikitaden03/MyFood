@@ -21,7 +21,7 @@ import com.example.myfood.components.menu.MenuContract;
 import com.example.myfood.components.menu.NavigationListener;
 import com.example.myfood.components.settings.backstage.SettingsContract;
 import com.example.myfood.components.settings.backstage.SettingsPresenter;
-import com.example.myfood.data.User;
+import com.example.myfood.data.models.User;
 import com.google.android.material.navigation.NavigationView;
 
 public class SettingsActivity extends BaseCompatActivity implements SettingsContract.View, MenuContract {

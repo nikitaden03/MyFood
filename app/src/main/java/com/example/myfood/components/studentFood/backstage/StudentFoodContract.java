@@ -14,6 +14,7 @@ public interface StudentFoodContract {
         String[] getData();
         void sendFood(String breakfast, String teatime, String lunch);
         Boolean hasTodayData();
+        void preapareData();
     }
     interface View extends BaseMvpView {
         void openMenu(android.view.View view);

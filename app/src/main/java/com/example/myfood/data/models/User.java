@@ -1,4 +1,6 @@
-package com.example.myfood.data;
+package com.example.myfood.data.models;
+
+import android.util.Log;
 
 import java.io.Serializable;
 
@@ -22,7 +24,21 @@ public class User implements Serializable {
         this.id = id;
     }
 
+    public User(GeneralUser user) {
+        this.name = user.getName();
+        this.school = user.getSchool();
+        this.numberClass = user.getClassNum();
+        this.priceBreakfast = user.getPriceBreakfast();
+        this.priceTeatime = user.getPriceTeatime();
+        this.priceLunch = user.getPriceLunch();
+        this.INK = user.getGroupNum();
+        this.isChargable = user.getChargeable();
+        this.id = user.getId();
+
+    }
+
     public String getName() {
+        Log.d("MYTAG", this.name);
         return name;
     }
 

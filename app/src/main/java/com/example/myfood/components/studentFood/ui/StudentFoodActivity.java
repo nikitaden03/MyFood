@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -22,13 +21,14 @@ import com.example.myfood.components.menu.MenuContract;
 import com.example.myfood.components.menu.NavigationListener;
 import com.example.myfood.components.studentFood.backstage.StudentFoodContract;
 import com.example.myfood.components.studentFood.backstage.StudentFoodPresenter;
-import com.example.myfood.data.User;
+import com.example.myfood.components.studentFood.backstage.callBackinterface;
+import com.example.myfood.data.models.User;
 import com.google.android.material.navigation.NavigationView;
 
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
-public class StudentFoodActivity extends BaseCompatActivity implements StudentFoodContract.View, MenuContract {
+public class StudentFoodActivity extends BaseCompatActivity implements StudentFoodContract.View, MenuContract, callBackinterface {
 
     DrawerLayout drawerLayout;
     NavigationView navigationView;
@@ -90,8 +90,7 @@ public class StudentFoodActivity extends BaseCompatActivity implements StudentFo
 
         back.setOnClickListener(onClickListener);
         next.setOnClickListener(onClickListener);
-
-        setFood();
+        presenter.preapareData();
     }
 
     private void setFood() {
@@ -176,5 +175,10 @@ public class StudentFoodActivity extends BaseCompatActivity implements StudentFo
     protected void onResume() {
         super.onResume();
         checkSession();
+    }
+
+    @Override
+    public void showData() {
+        setFood();
     }
 }

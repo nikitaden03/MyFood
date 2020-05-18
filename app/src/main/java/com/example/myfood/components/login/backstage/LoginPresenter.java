@@ -7,8 +7,9 @@ import android.util.Log;
 import com.example.myfood.R;
 import com.example.myfood.abstracts.presenter.BasePresenter;
 import com.example.myfood.components.login.ui.UiContract;
+import com.example.myfood.data.Data;
 
-public class LoginPresenter extends BasePresenter implements LoginContract.Presenter, AsynCallBack {
+public class LoginPresenter extends BasePresenter implements LoginContract.Presenter, AsynCallBack, AsynCallBackLogIn {
 
     @Override
     public void onClickButton(int id) {
@@ -50,7 +51,8 @@ public class LoginPresenter extends BasePresenter implements LoginContract.Prese
             return;
         }
         Log.d("GET_DATA", email + " " + password);
-        AsyncLogin asyncLogin = new AsyncLogin(this);
+        AsyncLoginForLogIn asyncLogin = new AsyncLoginForLogIn(this, 3);
+        asyncLogin.setVar(email, password);
         asyncLogin.execute();
     }
 
@@ -85,7 +87,8 @@ public class LoginPresenter extends BasePresenter implements LoginContract.Prese
             return;
         }
         Log.d("GET_DATA", email + " " + password + " " + school + " " + name + " " + numberClass);
-        AsyncLogin asyncSingUpFirst = new AsyncLogin(this);
+        AsyncLoginForSignUP asyncSingUpFirst = new AsyncLoginForSignUP(this, 1);
+        asyncSingUpFirst.setVar(email, password, name, "", numberClass, school);
         asyncSingUpFirst.execute();
     }
 
@@ -114,7 +117,8 @@ public class LoginPresenter extends BasePresenter implements LoginContract.Prese
             return;
         }
         Log.d("GET_DATA", email + " " + password + " " + name + " " + ink);
-        AsyncLogin asyncSingUpSecond = new AsyncLogin(this);
+        AsyncLoginForSignUP asyncSingUpSecond = new AsyncLoginForSignUP(this, 2);
+        asyncSingUpSecond.setVar(email, password, name, ink, "", "");
         asyncSingUpSecond.execute();
     }
 
@@ -123,7 +127,23 @@ public class LoginPresenter extends BasePresenter implements LoginContract.Prese
         switch (integer) {
             case 200:
                 Log.d("MYTAG", "200");
-                ((LoginContract.View) view).nextSceen();
+                ((LoginContract.View) view).nextSceenAfterSignUp();
+                break;
+            case 102:
+                UiContract.Fragments.SignUpFragment fragment = (UiContract.Fragments.SignUpFragment) ((LoginContract.View) view).getFragmentNow();
+                fragment.showEmailAlert(view.getContext().getResources().getString(R.string.email_alert));
+                fragment.showPasswordAlert(view.getContext().getResources().getString(R.string.password_alert));
+                break;
+            case 103:
+                UiContract.Fragments.SignUpSecondFragment fragment2 = (UiContract.Fragments.SignUpSecondFragment) ((LoginContract.View) view).getFragmentNow();
+                fragment2.showInkAlert(view.getContext().getResources().getString(R.string.ink_error));
+                break;
+            case 104:
+                UiContract.Fragments.SignUpFragment fragment3 = (UiContract.Fragments.SignUpFragment) ((LoginContract.View) view).getFragmentNow();
+                fragment3.showEmailAlert(view.getContext().getResources().getString(R.string.email_isnt_free));
+                break;
+            case 106:
+                break;
         }
     }
 
@@ -132,13 +152,38 @@ public class LoginPresenter extends BasePresenter implements LoginContract.Prese
                 "(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|\"(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21\\x23-\\x5b\\x5d-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])*\")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21-\\x5a\\x53-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])+)\\])");
     }
 
-    class AsyncLogin extends AsyncTask<String, Void, Integer> {
+    @Override
+    public void getAsyncTaskResult(String string) {
+        switch (string) {
+            case "102":
+                UiContract.Fragments.LoginFragment fragment = (UiContract.Fragments.LoginFragment) ((LoginContract.View) view).getFragmentNow();
+                fragment.showEmailAlert(view.getContext().getResources().getString(R.string.email_alert));
+                fragment.showPasswordAlert(view.getContext().getResources().getString(R.string.password_alert));
+                break;
+            case "105":
+                UiContract.Fragments.LoginFragment fragment1 = (UiContract.Fragments.LoginFragment) ((LoginContract.View) view).getFragmentNow();
+                fragment1.showEmailAlert(view.getContext().getResources().getString(R.string.email_not_exist));
+                break;
+            case "106":
+                UiContract.Fragments.LoginFragment fragment2 = (UiContract.Fragments.LoginFragment) ((LoginContract.View) view).getFragmentNow();
+                fragment2.showPasswordAlert(view.getContext().getResources().getString(R.string.password_not_exist));
+                break;
+            default:
+                ((LoginContract.View) view).nextSceenAfterLogIn(string);
+        }
+    }
+
+    class AsyncLoginForSignUP extends AsyncTask<String, Void, Integer> {
 
         ProgressDialog progressDialog;
         AsynCallBack asynCallBack;
+        int whereItIs;
+        Data data;
+        String email, password, name, groupNum, classNum, schoolNum;
 
-        AsyncLogin(AsynCallBack asynCallBack) {
+        AsyncLoginForSignUP(AsynCallBack asynCallBack, int whereItIS) {
             this.asynCallBack = asynCallBack;
+            this.whereItIs = whereItIS;
         }
 
         @Override
@@ -155,12 +200,14 @@ public class LoginPresenter extends BasePresenter implements LoginContract.Prese
         @Override
         protected Integer doInBackground(String... strings) {
             try {
-                // TODO Общение с БД
-                Thread.sleep(5000);
-            } catch (InterruptedException e) {
+                if (whereItIs == 1 || whereItIs == 2) {
+                    data = Data.getInstance();
+                     return data.signUp(email, password, name, groupNum, classNum, schoolNum);
+                }
+            } catch (Exception e) {
                 e.printStackTrace();
             }
-            return 200;
+            return 100;
         }
 
         @Override
@@ -169,9 +216,72 @@ public class LoginPresenter extends BasePresenter implements LoginContract.Prese
             progressDialog.dismiss();
             asynCallBack.getAsyncTaskResult(integer);
         }
+
+        public void setVar(String email, String password, String name, String groupNum, String classNum, String schoolNum) {
+            this.email = email;
+            this.password = password;
+            this.name = name;
+            this.groupNum = groupNum;
+            this.classNum = classNum;
+            this.schoolNum = schoolNum;
+        }
+    }
+
+    class AsyncLoginForLogIn extends AsyncTask<String, Void, String> {
+
+        ProgressDialog progressDialog;
+        AsynCallBackLogIn asynCallBack;
+        int whereItIs;
+        Data data;
+        String email, password;
+
+        AsyncLoginForLogIn(AsynCallBackLogIn asynCallBack, int whereItIS) {
+            this.asynCallBack = asynCallBack;
+            this.whereItIs = whereItIS;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            Log.d("MYTAG", "onPreExecute");
+            super.onPreExecute();
+            progressDialog = new ProgressDialog(view);
+            progressDialog.setTitle("Пожалуйста, подождите");
+            progressDialog.setMessage("Ведется соединение с сервером!");
+            progressDialog.setCancelable(false);
+            progressDialog.show();
+        }
+
+        @Override
+        protected String doInBackground(String... strings) {
+            try {
+                if (whereItIs == 3) {
+                    data = Data.getInstance();
+                    return data.logIn(email, password);
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return "100";
+        }
+
+        @Override
+        protected void onPostExecute(String integer) {
+            super.onPostExecute(integer);
+            progressDialog.dismiss();
+            asynCallBack.getAsyncTaskResult(integer);
+        }
+
+        public void setVar(String email, String password) {
+            this.email = email;
+            this.password = password;
+        }
     }
 }
 
 interface AsynCallBack {
     void getAsyncTaskResult(Integer integer);
+}
+
+interface AsynCallBackLogIn {
+    void getAsyncTaskResult(String string);
 }

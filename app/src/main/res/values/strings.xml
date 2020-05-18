@@ -24,7 +24,10 @@
     <string name="your_ink">Ваш ИНК</string>
     <string name="email_alert">Email должен быть заполненым!</string>
     <string name="email_uncorrect">Email должен быть коректен!</string>
+    <string name="email_isnt_free">Такой email уже занят!</string>
+    <string name="email_not_exist">Такой email не зарегистрирован</string>
     <string name="password_alert">Пароль должен быть заполненым!</string>
+    <string name="password_not_exist">Вы ввели неправильный пароль!</string>
     <string name="school_alert">Школа должна быть заполнена!</string>
     <string name="school_format_alert">Введите только номер школы!</string>
     <string name="name_alert">ФИО должно быть заполнено!</string>
@@ -32,6 +35,7 @@
     <string name="class_alert">Класс должен быть заполнен!</string>
     <string name="ink_alert">ИНК должен быть заполнен!</string>
     <string name="ink_format_alert">ИНК должен состоять только из 8 цифр!</string>
+    <string name="ink_error">Такого ИНК не существует!</string>
     <string name="type_account_first">дежурный</string>
     <string name="type_account_second">питающийся</string>
     <string name="type_accounts">типы аккаунтов</string>

@@ -70,11 +70,16 @@ public class LogInActivity extends BaseCompatActivity implements LoginContract.V
     }
 
     @Override
-    public void nextSceen() {
+    public void nextSceenAfterLogIn(String string) {
         SharedPreferences sharedPreferences = getSharedPreferences("token", MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putString("token", "t8988-147852369-aly852");
+        editor.putString("token", string);
         editor.apply();
+        startActivity(new Intent(this, CheckActivity.class));
+    }
+
+    @Override
+    public void nextSceenAfterSignUp() {
         startActivity(new Intent(this, CheckActivity.class));
     }
 

@@ -8,7 +8,8 @@ import android.view.View;
 
 import com.example.myfood.R;
 import com.example.myfood.abstracts.presenter.BasePresenter;
-import com.example.myfood.data.User;
+import com.example.myfood.data.Data;
+import com.example.myfood.data.models.User;
 
 import static android.content.Context.MODE_PRIVATE;
 
@@ -32,17 +33,19 @@ public class SettingsPresenter extends BasePresenter implements SettingsContract
 
                 // Проверка на соотвествие число+р
 
-                if (!breakfast.matches("^\\d{2,4}р$")) {
+                //TODO: Надо отправлять только цифру!!!
+
+                if (!breakfast.matches("^\\d{2,4}[рp$]$")) {
                     activity.showBreakfastPriceAlert(resources.getString(R.string.settings_format_data_alert));
                     dataCorrect = false;
                 }
 
-                if (!lunch.matches("^\\d{2,4}р$")) {
+                if (!lunch.matches("^\\d{2,4}[рp$]$")) {
                     activity.showLunchPriceAlert(resources.getString(R.string.settings_format_data_alert));
                     dataCorrect = false;
                 }
 
-                if (!teatime.matches("^\\d{2,4}р$")) {
+                if (!teatime.matches("^\\d{2,4}[рp$]$")) {
                     activity.showTeatimePriceAlert(resources.getString(R.string.settings_format_data_alert));
                     dataCorrect = false;
                 }
@@ -70,25 +73,28 @@ public class SettingsPresenter extends BasePresenter implements SettingsContract
 
                 User user = activity.getUser();
 
-                if ((user.getPriceBreakfast() + "р").equals(breakfast) && (user.getPriceTeatime() + "р").equals(teatime) && (user.getPriceLunch() + "р").equals(lunch)) {
-                    return;
-                }
-
                 int breakfastNum = Integer.parseInt(breakfast.substring(0, breakfast.length() - 1));
                 int teatimeNum = Integer.parseInt(teatime.substring(0, teatime.length() - 1));
                 int lunchNum = Integer.parseInt(lunch.substring(0, lunch.length() - 1));
 
+                if (breakfastNum == user.getPriceBreakfast() && teatimeNum == user.getPriceTeatime() && lunchNum == user.getPriceLunch()) {
+                    return;
+                }
+
                 activity.setPricesData(breakfastNum, teatimeNum, lunchNum);
 
-                AsyncTasks asyncTasks = new AsyncTasks(this);
+                SharedPreferences sharedPreferences = view.getContext().getSharedPreferences("token", MODE_PRIVATE);
+                String token = sharedPreferences.getString("token", "");
+
+                AsyncTasks asyncTasks = new AsyncTasks(this, breakfastNum, teatimeNum, lunchNum, token, (SettingsContract.View) this.view);
                 asyncTasks.execute();
 
                 break;
 
             case R.id.settings_leave_button:
 
-                SharedPreferences sharedPreferences = activity.getContext().getSharedPreferences("token", MODE_PRIVATE);
-                SharedPreferences.Editor editor = sharedPreferences.edit();
+                SharedPreferences sharedPreferences1 = activity.getContext().getSharedPreferences("token", MODE_PRIVATE);
+                SharedPreferences.Editor editor = sharedPreferences1.edit();
                 editor.putString("token", "");
                 editor.apply();
                 activity.leaveAccount();
@@ -106,9 +112,17 @@ public class SettingsPresenter extends BasePresenter implements SettingsContract
 
         ProgressDialog progressDialog;
         SettingsContract.Presenter asynCallBack;
+        int breakfast, teatime, lunch;
+        String token;
+        SettingsContract.View baseCompatActivity;
 
-        AsyncTasks(SettingsContract.Presenter asynCallBack) {
+        AsyncTasks(SettingsContract.Presenter asynCallBack, int breakfast, int teatime, int lunch, String token, SettingsContract.View baseCompatActivity) {
             this.asynCallBack = asynCallBack;
+            this.breakfast = breakfast;
+            this.teatime = teatime;
+            this.lunch = lunch;
+            this.token = token;
+            this.baseCompatActivity = baseCompatActivity;
         }
 
         @Override
@@ -123,12 +137,8 @@ public class SettingsPresenter extends BasePresenter implements SettingsContract
 
         @Override
         protected Integer doInBackground(String... strings) {
-            try {
-                // TODO Общение с БД
-                Thread.sleep(5000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
+            Data data = Data.getInstance();
+            data.addPrice(breakfast, teatime, lunch, token, baseCompatActivity);
             return 200;
         }
 

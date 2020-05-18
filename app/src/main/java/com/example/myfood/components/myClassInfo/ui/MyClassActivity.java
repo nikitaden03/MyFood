@@ -17,14 +17,16 @@ import com.example.myfood.R;
 import com.example.myfood.abstracts.view.BaseCompatActivity;
 import com.example.myfood.components.menu.MenuContract;
 import com.example.myfood.components.menu.NavigationListener;
+import com.example.myfood.components.myClassInfo.backstage.AsyncCallBack;
 import com.example.myfood.components.myClassInfo.backstage.MyClassContract;
 import com.example.myfood.components.myClassInfo.backstage.MyClassPresenter;
-import com.example.myfood.data.User;
+import com.example.myfood.data.models.Classmate;
+import com.example.myfood.data.models.User;
 import com.google.android.material.navigation.NavigationView;
 
 import java.util.ArrayList;
 
-public class MyClassActivity extends BaseCompatActivity implements MyClassContract.View, MenuContract {
+public class MyClassActivity extends BaseCompatActivity implements MyClassContract.View, MenuContract, AsyncCallBack {
 
     DrawerLayout drawerLayout;
     NavigationView navigationView;
@@ -77,10 +79,19 @@ public class MyClassActivity extends BaseCompatActivity implements MyClassContra
 
     @Override
     public void showMyClass() {
+        presenter.prepareInformMyClass(user);
+    }
+
+    public void showMyClass2(ArrayList<Classmate> classmates) {
         ListView listView = findViewById(R.id.classInfo_list_view);
-        ArrayList<String> arrayList = presenter.getInformMyClass(user);
-        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(this, R.layout.my_class_list, arrayList);
-        ((TextView) findViewById(R.id.food_count)).setText("ВСЕГО: " + arrayList.size() + " УЧЕНИКОВ");
+        String name;
+        ArrayList<String> arrayList1 = new ArrayList<>();
+        for (Classmate classmate: classmates) {
+            name = classmate.getName();
+            arrayList1.add(name);
+        }
+        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(this, R.layout.my_class_list, arrayList1);
+        ((TextView) findViewById(R.id.food_count)).setText("ВСЕГО: " + arrayList1.size() + " УЧЕНИКОВ");
         listView.setAdapter(arrayAdapter);
     }
 
@@ -99,5 +110,10 @@ public class MyClassActivity extends BaseCompatActivity implements MyClassContra
     protected void onResume() {
         super.onResume();
         checkSession();
+    }
+
+    @Override
+    public void reternClassmates(ArrayList<Classmate> classmates) {
+        showMyClass2(classmates);
     }
 }

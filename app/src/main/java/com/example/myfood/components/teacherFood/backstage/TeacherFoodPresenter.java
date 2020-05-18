@@ -1,8 +1,12 @@
 package com.example.myfood.components.teacherFood.backstage;
 
+import android.app.ProgressDialog;
+import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.util.Log;
 
 import com.example.myfood.abstracts.presenter.BasePresenter;
+import com.example.myfood.data.Data;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -10,20 +14,35 @@ import java.util.GregorianCalendar;
 import java.util.LinkedList;
 import java.util.TreeMap;
 
+import static android.content.Context.MODE_PRIVATE;
+
 public class TeacherFoodPresenter extends BasePresenter implements TeacherFoodContract.Presenter  {
 
     private int breakfast, teatime, lunch;
     private Calendar calendar;
     private LinkedList<TreeMap<String, String[]>> data;
+    private callBackinterface callBackinterface;
     int cursor;
 
 
     public TeacherFoodPresenter () {
         calendar = new GregorianCalendar();
-        //TODO Сделать запрос в дирикторию data, чтобы получить TreeMap
-        data = getFakeData();
         cursor = calendar.get(Calendar.DAY_OF_MONTH);
         Log.d("MYTAG", cursor+"");
+    }
+
+    @Override
+    public void prepareData(){
+        callBackinterface = (callBackinterface) view;
+
+        if (data == null) {
+            SharedPreferences sharedPreferences = ((TeacherFoodContract.View)view).getContext().getSharedPreferences("token", MODE_PRIVATE);
+            String token = sharedPreferences.getString("token", "");
+            AsyncTaskTeacherFood taskTeacherFood = new AsyncTaskTeacherFood(callBackinterface, token);
+            taskTeacherFood.execute();
+        } else {
+            callBackinterface.showData();
+        }
     }
 
     @Override
@@ -38,6 +57,9 @@ public class TeacherFoodPresenter extends BasePresenter implements TeacherFoodCo
         lunch = 0;
         TreeMap<String, String[]> treeMap = data.get(cursor - 1);
         ArrayList<String[]> arrayList = new ArrayList<>();
+        if (treeMap.size() == 0) {
+            arrayList.add(new String[]{"5"});
+        }
         for (String i: treeMap.keySet()) {
             String[] arr = new String[4];
             arr[0] = i;
@@ -103,154 +125,41 @@ public class TeacherFoodPresenter extends BasePresenter implements TeacherFoodCo
         return lunch;
     }
 
-    private LinkedList<TreeMap<String, String[]>> getFakeData(){
+    class AsyncTaskTeacherFood extends AsyncTask<Void, Void, LinkedList<TreeMap<String, String[]>>> {
 
-        TreeMap<String, String[]> treeMap = new TreeMap<>();
-        treeMap.put("Иван Иванов", new String[]{"0", "1", "1"});
-        treeMap.put("Иван Иванов1", new String[]{"1", "1", "1"});
-        treeMap.put("Иван Иванов2", new String[]{"1", "0", "1"});
-        treeMap.put("Иван Иванов3", new String[]{"0", "0", "1"});
-        treeMap.put("Иван Иванов4", new String[]{"0", "0", "1"});
-        treeMap.put("Иван Иванов5", new String[]{"0", "0", "0"});
-        treeMap.put("Иван Иванов6", new String[]{"1", "0", "0"});
-        treeMap.put("Иван Иванов7", new String[]{"0", "1", "1"});
-        treeMap.put("Иван Иванов8", new String[]{"0", "0", "1"});
-        treeMap.put("Иван Иванов9", new String[]{"0", "1", "1"});
+        callBackinterface callback;
+        String token;
+        ProgressDialog progressDialog;
 
-        TreeMap<String, String[]> treeMap1 = new TreeMap<>();
-        treeMap1.put("Иван Сидоров", new String[]{"0", "1", "1"});
-        treeMap1.put("Иван Сидоров1", new String[]{"1", "1", "1"});
-        treeMap1.put("Иван Сидоров2", new String[]{"1", "0", "1"});
-        treeMap1.put("Иван Сидоров3", new String[]{"0", "1", "1"});
-        treeMap1.put("Иван Сидоров4", new String[]{"0", "0", "1"});
-        treeMap1.put("Иван Сидоров5", new String[]{"0", "0", "0"});
-        treeMap1.put("Иван Сидоров6", new String[]{"1", "0", "0"});
-        treeMap1.put("Иван Сидоров7", new String[]{"0", "1", "1"});
-        treeMap1.put("Иван Сидоров8", new String[]{"0", "0", "1"});
-        treeMap1.put("Иван Сидоров9", new String[]{"0", "1", "1"});
+        public AsyncTaskTeacherFood(callBackinterface callback, String token) {
+            this.callback = callback;
+            this.token = token;
+        }
 
-        TreeMap<String, String[]> treeMap2 = new TreeMap<>();
-        treeMap2.put("Иван Сидоров", new String[]{"0", "1", "1"});
-        treeMap2.put("Иван Сидоров1", new String[]{"1", "1", "1"});
-        treeMap2.put("Иван Сидоров2", new String[]{"1", "0", "1"});
-        treeMap2.put("Иван Сидоров3", new String[]{"0", "1", "1"});
-        treeMap2.put("Иван Сидоров4", new String[]{"0", "0", "1"});
-        treeMap2.put("Иван Сидоров5", new String[]{"0", "0", "0"});
-        treeMap2.put("Иван Сидоров6", new String[]{"1", "0", "0"});
-        treeMap2.put("Иван Сидоров7", new String[]{"0", "1", "1"});
-        treeMap2.put("Иван Сидоров8", new String[]{"0", "0", "1"});
-        treeMap2.put("Иван Сидоров9", new String[]{"0", "1", "1"});
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            progressDialog = new ProgressDialog(view);
+            progressDialog.setTitle("Пожалуйста, подождите");
+            progressDialog.setMessage("Ведется соединение с сервером!");
+            progressDialog.setCancelable(false);
+            progressDialog.show();
+        }
 
-        TreeMap<String, String[]> treeMap3 = new TreeMap<>();
-        treeMap3.put("Иван Иванов", new String[]{"0", "1", "1"});
-        treeMap3.put("Иван Иванов1", new String[]{"1", "1", "1"});
-        treeMap3.put("Иван Иванов2", new String[]{"1", "0", "1"});
-        treeMap3.put("Иван Иванов3", new String[]{"0", "0", "1"});
-        treeMap3.put("Иван Иванов4", new String[]{"0", "0", "1"});
-        treeMap3.put("Иван Иванов5", new String[]{"0", "0", "0"});
-        treeMap3.put("Иван Иванов6", new String[]{"1", "0", "0"});
-        treeMap3.put("Иван Иванов7", new String[]{"0", "1", "1"});
-        treeMap3.put("Иван Иванов8", new String[]{"0", "0", "1"});
-        treeMap3.put("Иван Иванов9", new String[]{"0", "1", "1"});
+        @Override
+        protected void onPostExecute(LinkedList<TreeMap<String, String[]>> treeMaps) {
+            super.onPostExecute(treeMaps);
+            data = treeMaps;
+            progressDialog.dismiss();
+            callback.showData();
+        }
 
-        TreeMap<String, String[]> treeMap4 = new TreeMap<>();
-        treeMap4.put("Иван Сидоров", new String[]{"0", "1", "1"});
-        treeMap4.put("Иван Сидоров1", new String[]{"1", "1", "1"});
-        treeMap4.put("Иван Сидоров2", new String[]{"1", "0", "1"});
-        treeMap4.put("Иван Сидоров3", new String[]{"0", "1", "1"});
-        treeMap4.put("Иван Сидоров4", new String[]{"0", "0", "1"});
-        treeMap4.put("Иван Сидоров5", new String[]{"0", "0", "0"});
-        treeMap4.put("Иван Сидоров6", new String[]{"1", "0", "0"});
-        treeMap4.put("Иван Сидоров7", new String[]{"0", "1", "1"});
-        treeMap4.put("Иван Сидоров8", new String[]{"0", "0", "1"});
-        treeMap4.put("Иван Сидоров9", new String[]{"0", "1", "1"});
-
-        TreeMap<String, String[]> treeMap5 = new TreeMap<>();
-        treeMap5.put("Иван Сидоров", new String[]{"0", "1", "1"});
-        treeMap5.put("Иван Сидоров1", new String[]{"1", "1", "1"});
-        treeMap5.put("Иван Сидоров2", new String[]{"1", "0", "1"});
-        treeMap5.put("Иван Сидоров3", new String[]{"0", "1", "1"});
-        treeMap5.put("Иван Сидоров4", new String[]{"0", "0", "1"});
-        treeMap5.put("Иван Сидоров5", new String[]{"0", "0", "0"});
-        treeMap5.put("Иван Сидоров6", new String[]{"1", "0", "0"});
-        treeMap5.put("Иван Сидоров7", new String[]{"0", "1", "1"});
-        treeMap5.put("Иван Сидоров8", new String[]{"0", "0", "1"});
-        treeMap5.put("Иван Сидоров9", new String[]{"0", "1", "1"});
-
-        TreeMap<String, String[]> treeMap6 = new TreeMap<>();
-        treeMap6.put("Иван Сидоров", new String[]{"0", "1", "1"});
-        treeMap6.put("Иван Сидоров1", new String[]{"1", "1", "1"});
-        treeMap6.put("Иван Сидоров2", new String[]{"1", "0", "1"});
-        treeMap6.put("Иван Сидоров3", new String[]{"0", "1", "1"});
-        treeMap6.put("Иван Сидоров4", new String[]{"0", "0", "1"});
-        treeMap6.put("Иван Сидоров5", new String[]{"0", "0", "0"});
-        treeMap6.put("Иван Сидоров6", new String[]{"1", "0", "0"});
-        treeMap6.put("Иван Сидоров7", new String[]{"0", "1", "1"});
-        treeMap6.put("Иван Сидоров8", new String[]{"0", "0", "1"});
-        treeMap6.put("Иван Сидоров9", new String[]{"0", "1", "1"});
-
-        TreeMap<String, String[]> treeMap7 = new TreeMap<>();
-        treeMap7.put("Иван Сидоров", new String[]{"0", "1", "1"});
-        treeMap7.put("Иван Сидоров1", new String[]{"1", "1", "1"});
-        treeMap7.put("Иван Сидоров2", new String[]{"1", "0", "1"});
-        treeMap7.put("Иван Сидоров3", new String[]{"0", "1", "1"});
-        treeMap7.put("Иван Сидоров4", new String[]{"0", "0", "1"});
-        treeMap7.put("Иван Сидоров5", new String[]{"0", "0", "0"});
-        treeMap7.put("Иван Сидоров6", new String[]{"1", "0", "0"});
-        treeMap7.put("Иван Сидоров7", new String[]{"0", "1", "1"});
-        treeMap7.put("Иван Сидоров8", new String[]{"0", "0", "1"});
-        treeMap7.put("Иван Сидоров9", new String[]{"0", "1", "1"});
-
-        TreeMap<String, String[]> treeMap8 = new TreeMap<>();
-        treeMap8.put("Иван Сидоров", new String[]{"0", "1", "1"});
-        treeMap8.put("Иван Сидоров1", new String[]{"1", "1", "1"});
-        treeMap8.put("Иван Сидоров2", new String[]{"1", "0", "1"});
-        treeMap8.put("Иван Сидоров3", new String[]{"0", "1", "1"});
-        treeMap8.put("Иван Сидоров4", new String[]{"0", "0", "1"});
-        treeMap8.put("Иван Сидоров5", new String[]{"0", "0", "0"});
-        treeMap8.put("Иван Сидоров6", new String[]{"1", "0", "0"});
-        treeMap8.put("Иван Сидоров7", new String[]{"0", "1", "1"});
-        treeMap8.put("Иван Сидоров8", new String[]{"0", "0", "1"});
-        treeMap8.put("Иван Сидоров9", new String[]{"0", "1", "1"});
-
-        TreeMap<String, String[]> treeMap9 = new TreeMap<>();
-        treeMap9.put("Иван Сидоров", new String[]{"0", "1", "1"});
-        treeMap9.put("Иван Сидоров1", new String[]{"1", "1", "1"});
-        treeMap9.put("Иван Сидоров2", new String[]{"1", "0", "1"});
-        treeMap9.put("Иван Сидоров3", new String[]{"0", "1", "1"});
-        treeMap9.put("Иван Сидоров4", new String[]{"0", "0", "1"});
-        treeMap9.put("Иван Сидоров5", new String[]{"0", "0", "0"});
-        treeMap9.put("Иван Сидоров6", new String[]{"1", "0", "0"});
-        treeMap9.put("Иван Сидоров7", new String[]{"0", "1", "1"});
-        treeMap9.put("Иван Сидоров8", new String[]{"0", "0", "1"});
-        treeMap9.put("Иван Сидоров9", new String[]{"0", "1", "1"});
-
-        TreeMap<String, String[]> treeMap10 = new TreeMap<>();
-        treeMap10.put("Иван Сидоров", new String[]{"0", "1", "1"});
-        treeMap10.put("Иван Сидоров1", new String[]{"1", "1", "1"});
-        treeMap10.put("Иван Сидоров2", new String[]{"1", "0", "1"});
-        treeMap10.put("Иван Сидоров3", new String[]{"0", "1", "1"});
-        treeMap10.put("Иван Сидоров4", new String[]{"0", "0", "1"});
-        treeMap10.put("Иван Сидоров5", new String[]{"0", "0", "0"});
-        treeMap10.put("Иван Сидоров6", new String[]{"1", "0", "0"});
-        treeMap10.put("Иван Сидоров7", new String[]{"0", "1", "1"});
-        treeMap10.put("Иван Сидоров8", new String[]{"0", "0", "1"});
-        treeMap10.put("Иван Сидоров9", new String[]{"0", "1", "1"});
-
-        LinkedList<TreeMap<String, String[]>> fakeData = new LinkedList<>();
-        fakeData.add(treeMap);
-        fakeData.add(treeMap1);
-        fakeData.add(treeMap2);
-        fakeData.add(treeMap3);
-        fakeData.add(treeMap4);
-        fakeData.add(treeMap5);
-        fakeData.add(treeMap6);
-        fakeData.add(treeMap7);
-        fakeData.add(treeMap8);
-        fakeData.add(treeMap9);
-        fakeData.add(treeMap10);
-        fakeData.add(treeMap);
-
-        return fakeData;
+        @Override
+        protected LinkedList<TreeMap<String, String[]>> doInBackground(Void... voids) {
+            Data data = Data.getInstance();
+            return data.getTeacherFood(token);
+        }
     }
+
 }
+

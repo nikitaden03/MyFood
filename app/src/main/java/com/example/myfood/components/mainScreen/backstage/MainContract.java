@@ -2,7 +2,7 @@ package com.example.myfood.components.mainScreen.backstage;
 
 import com.example.myfood.abstracts.presenter.BaseMvpPresenter;
 import com.example.myfood.abstracts.view.BaseMvpView;
-import com.example.myfood.data.User;
+import com.example.myfood.data.models.User;
 
 public interface MainContract {
     interface Presenter extends BaseMvpPresenter{

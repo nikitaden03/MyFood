@@ -23,12 +23,13 @@ import com.example.myfood.components.menu.MenuContract;
 import com.example.myfood.components.menu.NavigationListener;
 import com.example.myfood.components.teacherFood.backstage.TeacherFoodContract;
 import com.example.myfood.components.teacherFood.backstage.TeacherFoodPresenter;
-import com.example.myfood.data.User;
+import com.example.myfood.components.teacherFood.backstage.callBackinterface;
+import com.example.myfood.data.models.User;
 import com.google.android.material.navigation.NavigationView;
 
 import java.util.ArrayList;
 
-public class TeacherFoodActivity extends BaseCompatActivity implements TeacherFoodContract.View, MenuContract {
+public class TeacherFoodActivity extends BaseCompatActivity implements TeacherFoodContract.View, MenuContract, callBackinterface {
 
     DrawerLayout drawerLayout;
     NavigationView navigationView;
@@ -43,7 +44,7 @@ public class TeacherFoodActivity extends BaseCompatActivity implements TeacherFo
         setContentView(R.layout.activity_teacher_food);
         presenter = new TeacherFoodPresenter();
         presenter.attach(this);
-
+        presenter.prepareData();
         checkSession();
 
         drawerLayout = findViewById(R.id.main_drawer_layout);
@@ -86,8 +87,6 @@ public class TeacherFoodActivity extends BaseCompatActivity implements TeacherFo
 
         back.setOnClickListener(onClickListener);
         next.setOnClickListener(onClickListener);
-
-        setFoodList();
     }
 
     @Override
@@ -117,6 +116,7 @@ public class TeacherFoodActivity extends BaseCompatActivity implements TeacherFo
             findViewById(R.id.food_count).setVisibility(View.GONE);
             findViewById(R.id.food_line).setVisibility(View.GONE);
         } else {
+            if (data.get(0)[0].equals("5")) data = new ArrayList<>();
             listView.setVisibility(View.VISIBLE);
             findViewById(R.id.food_alert).setVisibility(View.GONE);
             MyAdapter myAdapter = new MyAdapter(getApplicationContext(), R.layout.teacher_food_item, data);
@@ -156,6 +156,11 @@ public class TeacherFoodActivity extends BaseCompatActivity implements TeacherFo
     protected void onResume() {
         super.onResume();
         checkSession();
+    }
+
+    @Override
+    public void showData() {
+        setFoodList();
     }
 
     class MyAdapter extends ArrayAdapter<String[]> {

@@ -1,5 +1,7 @@
 package com.example.myfood.components.teacherFood.backstage;
 
+import android.content.Context;
+
 import com.example.myfood.abstracts.presenter.BaseMvpPresenter;
 import com.example.myfood.abstracts.view.BaseMvpView;
 
@@ -14,10 +16,12 @@ public interface TeacherFoodContract {
         String getCursor();
         void cursorUp();
         void cursorDown();
+        void prepareData();
     }
     interface View extends BaseMvpView {
         void openMenu(android.view.View view);
         void setFoodList();
         void changeButton();
+        Context getContext();
     }
 }

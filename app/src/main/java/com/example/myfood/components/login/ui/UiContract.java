@@ -10,18 +10,17 @@ public interface UiContract {
         interface SignUpChooseAccount {
             void showInformFragment();
         }
-        interface SignUpFirstFragment {
+        interface SignUpFragment {
             void showEmailAlert(String text);
             void showPasswordAlert(String text);
-            void showSchoolAlert(String text);
             void showNameAlert(String text);
+        }
+        interface SignUpFirstFragment extends SignUpFragment {
+            void showSchoolAlert(String text);
             void showClassAlert(String text);
             void hideAlerts();
         }
-        interface SignUpSecondFragment {
-            void showEmailAlert(String text);
-            void showPasswordAlert(String text);
-            void showNameAlert(String text);
+        interface SignUpSecondFragment extends SignUpFragment {
             void showInkAlert(String text);
             void hideAlerts();
         }
