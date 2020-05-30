@@ -31,7 +31,7 @@ public class Data {
     private static Data instance;
     Retrofit retrofit;
 
-    private final String BASE_URL = "http://10.0.2.2:8080/";
+    private final String BASE_URL = "https://myfoodserver.herokuapp.com/";
 
     private Data() {
         Gson gson = new GsonBuilder()

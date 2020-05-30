@@ -96,8 +96,8 @@ public class StudentFoodPresenter extends BasePresenter implements StudentFoodCo
 
     @Override
     public String getCurrentMonth() {
-        String answer = calendar.get(Calendar.MONTH) + "";
-        if ((calendar.get(Calendar.MONTH) + "").length() == 1) {
+        String answer = calendar.get(Calendar.MONTH) + 1 + "";
+        if ((calendar.get(Calendar.MONTH) + 1 + "").length() == 1) {
             answer = "0" + answer;
         }
 
@@ -171,6 +171,7 @@ public class StudentFoodPresenter extends BasePresenter implements StudentFoodCo
             if (integer == 107) {
                 ((MenuContract) view).showActivity(CheckActivity.class);
             }
+            callBackinterface.afterSendingFood();
         }
 
         @Override

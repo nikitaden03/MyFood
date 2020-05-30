@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -98,7 +99,9 @@ public class StudentFoodActivity extends BaseCompatActivity implements StudentFo
         Calendar calendar = new GregorianCalendar();
         ((TextView) findViewById(R.id.food_data)).setText(presenter.getCursor() + "." + presenter.getCurrentMonth());
 
-        if (calendar.get(Calendar.DAY_OF_MONTH) == Integer.parseInt(presenter.getCursor()) && calendar.get(Calendar.HOUR) < 8 && !presenter.hasTodayData()){
+        Log.d("StudentFood", calendar.get(Calendar.HOUR) + "");
+
+        if (calendar.get(Calendar.DAY_OF_MONTH) == Integer.parseInt(presenter.getCursor()) && calendar.get(Calendar.HOUR_OF_DAY) < 8 && !presenter.hasTodayData()){
             button.setEnabled(true);
             breakfast.setEnabled(true);
             lunch.setEnabled(true);
@@ -180,5 +183,10 @@ public class StudentFoodActivity extends BaseCompatActivity implements StudentFo
     @Override
     public void showData() {
         setFood();
+    }
+
+    @Override
+    public void afterSendingFood() {
+        showActivity(StudentFoodActivity.class);
     }
 }

@@ -104,8 +104,8 @@ public class TeacherFoodPresenter extends BasePresenter implements TeacherFoodCo
 
     @Override
     public String getCurrentMonth() {
-        String answer = calendar.get(Calendar.MONTH) + "";
-        if ((calendar.get(Calendar.MONTH) + "").length() == 1) {
+        String answer = calendar.get(Calendar.MONTH) + 1 + "";
+        if ((calendar.get(Calendar.MONTH) + 1 +  "").length() == 1) {
             answer = "0" + answer;
         }
 
