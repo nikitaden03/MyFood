@@ -34,6 +34,7 @@ public class LogInSecondFragment extends Fragment implements UiContract.Fragment
     public android.view.View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         android.view.View v = inflater.inflate(R.layout.fragment_login_second, container, false);
 
+        // Находит нужные элементы UI
         Button login = v.findViewById(R.id.button_login);
         ImageButton backArrow = v.findViewById(R.id.login_back_arrow);
         final EditText emailEditText = v.findViewById(R.id.login_email);
@@ -41,6 +42,7 @@ public class LogInSecondFragment extends Fragment implements UiContract.Fragment
         emailTextView = v.findViewById(R.id.login_email_alert);
         passwordTextView = v.findViewById(R.id.login_password_alert);
 
+        // Обработчик кликов по кнопкам.
         android.view.View.OnClickListener onClickListener = new android.view.View.OnClickListener() {
             @Override
             public void onClick(android.view.View v) {
@@ -55,24 +57,28 @@ public class LogInSecondFragment extends Fragment implements UiContract.Fragment
             }
         };
 
+        // Вешает обработчик на сами кнопки
         login.setOnClickListener(onClickListener);
         backArrow.setOnClickListener(onClickListener);
 
         return v;
     }
 
+    // Выводит строку красного цвета с заданным текстом. Используется для вывода сообщений о некоректности email
     @Override
     public void showEmailAlert(String text) {
         emailTextView.setText(text);
         emailTextView.setVisibility(View.VISIBLE);
     }
 
+    // Выводит строку красного цвета с заданным текстом. Используется для вывода сообщений о некоректности пароля
     @Override
     public void showPasswordAlert(String text) {
         passwordTextView.setText(text);
         passwordTextView.setVisibility(View.VISIBLE);
     }
 
+    // Прячет все строки красного цвета.
     @Override
     public void hideAlerts() {
         emailTextView.setVisibility(View.GONE);

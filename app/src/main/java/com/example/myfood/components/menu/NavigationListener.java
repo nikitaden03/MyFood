@@ -1,8 +1,6 @@
 package com.example.myfood.components.menu;
 
-import android.content.Context;
 import android.view.MenuItem;
-import android.widget.Toast;
 
 import com.example.myfood.R;
 import com.example.myfood.components.mainScreen.ui.MainScreenActivity;
@@ -14,13 +12,14 @@ import com.example.myfood.components.teacherFood.ui.TeacherFoodActivity;
 
 public class NavigationListener {
 
-    MenuContract view;
+    private MenuContract view;
 
     public NavigationListener(MenuContract view) {
         this.view = view;
     }
 
-    public void onNavigationItemSelected(MenuItem menuItem, Context context) {
+    // Обрабатывает нажатия на пункты в боковом меню
+    public void onNavigationItemSelected(MenuItem menuItem) {
         switch (menuItem.getItemId()) {
             case R.id.menu_main:
                 view.showActivity(MainScreenActivity.class);

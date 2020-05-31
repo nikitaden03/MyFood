@@ -22,11 +22,8 @@ import com.example.myfood.components.myINK.backstage.MyInkPresenter;
 import com.example.myfood.data.models.User;
 import com.google.android.material.navigation.NavigationView;
 
-public class MyInkActivity extends BaseCompatActivity implements MyInkContract.View, MenuContract {
+public class MyInkActivity extends BaseCompatActivity implements MyInkContract.View{
 
-    DrawerLayout drawerLayout;
-    NavigationView navigationView;
-    User user;
     MyInkPresenter presenter;
 
     @Override
@@ -34,29 +31,24 @@ public class MyInkActivity extends BaseCompatActivity implements MyInkContract.V
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_ink);
 
+        // Это требуется, если пользователь вышел из аккаунта и случайно попал в эту activity
         checkSession();
 
+        // Находит нужный presenter и прикрепляется к нему
         presenter= new MyInkPresenter();
         presenter.attach(this);
 
+        // Достает данные о пользователи, которые были загружены ранее
+        user = (User)getIntent().getSerializableExtra("UserClass");
+
+        // Находит нужные элементы UI
         drawerLayout = findViewById(R.id.main_drawer_layout);
         navigationView = findViewById(R.id.navigationView);
-        user = (User)getIntent().getSerializableExtra("UserClass");
-        final NavigationListener navigationListener = new NavigationListener(this);
-        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                navigationListener.onNavigationItemSelected(item, getApplicationContext());
-                return false;
-            }
-        });
 
-        if (user.isChargable()) {
-            ((NavigationView)findViewById(R.id.navigationView)).inflateMenu(R.menu.drawer_menu_first_type);
-        } else {
-            ((NavigationView)findViewById(R.id.navigationView)).inflateMenu(R.menu.drawer_menu_second_type);
-        }
+        // Настраивает работу бокового меню
+        installMenu();
 
+        // Вешает слушатель на кнопку "Скопировать"
         Button toCopy = findViewById(R.id.my_ink_button);
         toCopy.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -65,6 +57,7 @@ public class MyInkActivity extends BaseCompatActivity implements MyInkContract.V
             }
         });
 
+        // В зависимости от факта заполнености цен на питание показывает ИНК, либо нет
         if (user.getPriceBreakfast() != 0 && user.getPriceLunch() != 0 && user.getPriceTeatime() != 0) {
             ((TextView) findViewById(R.id.ink_label)).setText(Integer.toString(user.getINK()));
         } else {
@@ -74,10 +67,6 @@ public class MyInkActivity extends BaseCompatActivity implements MyInkContract.V
         }
     }
 
-    @Override
-    public void openMenu(View view) {
-        drawerLayout.openDrawer(GravityCompat.START);
-    }
 
     @Override
     public void showToast() {
@@ -87,13 +76,6 @@ public class MyInkActivity extends BaseCompatActivity implements MyInkContract.V
     @Override
     public Context getContext() {
         return this;
-    }
-
-    @Override
-    public void showActivity(Class cl) {
-        Intent intent = new Intent(getApplicationContext(), cl);
-        intent.putExtra("UserClass", user);
-        startActivity(intent);
     }
 
     @Override

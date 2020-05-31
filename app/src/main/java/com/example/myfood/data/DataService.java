@@ -1,7 +1,9 @@
 package com.example.myfood.data;
 
 import com.example.myfood.data.models.Classmate;
-import com.example.myfood.data.models.GeneralUser;
+import com.example.myfood.data.models.MenuForResponse;
+import com.example.myfood.data.models.UserForResponse;
+import com.example.myfood.data.models.TokenForResponse;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -18,10 +20,10 @@ public interface DataService {
     Call<Integer> signUp(@Query("email") String email, @Query("password") String password, @Query("name") String name, @Query("group_num") String groupNum, @Query("class_num") String classNum, @Query("school_num") String schoolNum);
 
     @GET("user/login")
-    Call<String> logIn(@Query("email") String email, @Query("password") String password);
+    Call<TokenForResponse> logIn(@Query("email") String email, @Query("password") String password);
 
     @GET("user/information")
-    Call<GeneralUser> getInformation(@Query("token") String token);
+    Call<UserForResponse> getInformation(@Query("token") String token);
 
     @GET("group/class")
     Call<ArrayList<Classmate>> getListClassmates(@Query("token") String token, @Query("group_num") String groupMun);
@@ -30,10 +32,10 @@ public interface DataService {
     Call<Integer> addPrice(@Query("breakfast") Integer breakfast, @Query("teatime") Integer teatime, @Query("lunch") Integer lunch, @Query("token") String token);
 
     @GET("menu/get")
-    Call<LinkedList<TreeMap<String, String[]>>> getTeacherFood (@Query("token") String token);
+    Call<MenuForResponse> getTeacherFood (@Query("token") String token);
 
     @GET("menu/get")
-    Call<LinkedList<String[]>> getStudentFood (@Query("token") String token);
+    Call<MenuForResponse> getStudentFood (@Query("token") String token);
 
     @POST("menu/add")
     Call<Integer> sendStudentFood(@Query("breakfast") String breakfast, @Query("teatime") String teatime, @Query("lunch") String lunch, @Query("token") String token);

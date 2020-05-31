@@ -1,10 +1,8 @@
 package com.example.myfood.components.studentFood.ui;
 
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -13,27 +11,22 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.example.myfood.R;
 import com.example.myfood.abstracts.view.BaseCompatActivity;
-import com.example.myfood.components.menu.MenuContract;
 import com.example.myfood.components.menu.NavigationListener;
 import com.example.myfood.components.studentFood.backstage.StudentFoodContract;
 import com.example.myfood.components.studentFood.backstage.StudentFoodPresenter;
-import com.example.myfood.components.studentFood.backstage.callBackinterface;
+import com.example.myfood.components.studentFood.backstage.AsyncCallBack;
 import com.example.myfood.data.models.User;
 import com.google.android.material.navigation.NavigationView;
 
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
-public class StudentFoodActivity extends BaseCompatActivity implements StudentFoodContract.View, MenuContract, callBackinterface {
+public class StudentFoodActivity extends BaseCompatActivity implements StudentFoodContract.View, AsyncCallBack {
 
-    DrawerLayout drawerLayout;
-    NavigationView navigationView;
-    User user;
     StudentFoodPresenter presenter;
     ImageButton back, next;
     CheckBox breakfast, teatime, lunch;
@@ -44,36 +37,30 @@ public class StudentFoodActivity extends BaseCompatActivity implements StudentFo
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_student_food);
 
+        // Это требуется, если пользователь вышел из аккаунта и случайно попал в эту activity
         checkSession();
 
-        drawerLayout = findViewById(R.id.main_drawer_layout);
-        navigationView = findViewById(R.id.navigationView);
+        // Достает данные о пользователе, которые были загружены ранее
         user = (User)getIntent().getSerializableExtra("UserClass");
+
+        // Находит нужный presenter и прикрепляется к нему
         presenter = new StudentFoodPresenter();
         presenter.attach(this);
 
+        // Находит нужные элементы UI
         breakfast = findViewById(R.id.food_checkbox_breakfast);
         lunch = findViewById(R.id.food_checkbox_lunch);
         teatime = findViewById(R.id.food_checkbox_teatime);
         button = findViewById(R.id.food_button_send);
-
-        final NavigationListener navigationListener = new NavigationListener(this);
-        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                navigationListener.onNavigationItemSelected(item, getApplicationContext());
-                return false;
-            }
-        });
-        if (user.isChargable()) {
-            ((NavigationView)findViewById(R.id.navigationView)).inflateMenu(R.menu.drawer_menu_first_type);
-        } else {
-            ((NavigationView)findViewById(R.id.navigationView)).inflateMenu(R.menu.drawer_menu_second_type);
-        }
-
         back = findViewById(R.id.food_previous_button);
         next = findViewById(R.id.food_next_button);
+        drawerLayout = findViewById(R.id.main_drawer_layout);
+        navigationView = findViewById(R.id.navigationView);
 
+        // Настраивает работу бокового меню
+        installMenu();
+
+        // Обработчик кликов по кнопкам для просмотра истории
         View.OnClickListener onClickListener = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -89,18 +76,21 @@ public class StudentFoodActivity extends BaseCompatActivity implements StudentFo
             }
         };
 
+        // Вешает обработчик на сами кнопки
         back.setOnClickListener(onClickListener);
         next.setOnClickListener(onClickListener);
-        presenter.preapareData();
+
+        //Подготавливает данные для отображения
+        presenter.prepareData();
     }
 
+    // Выводит историю на экран
     private void setFood() {
 
         Calendar calendar = new GregorianCalendar();
-        ((TextView) findViewById(R.id.food_data)).setText(presenter.getCursor() + "." + presenter.getCurrentMonth());
+        ((TextView) findViewById(R.id.food_data)).setText(presenter.getCursor() + "." + presenter.getCurrentMonthAndYear());
 
-        Log.d("StudentFood", calendar.get(Calendar.HOUR) + "");
-
+        // Если время до 8:00, и ученик еще не отправил заявку на питание, делает элементы кликабельными, а кнопку яркого желтого цвета
         if (calendar.get(Calendar.DAY_OF_MONTH) == Integer.parseInt(presenter.getCursor()) && calendar.get(Calendar.HOUR_OF_DAY) < 8 && !presenter.hasTodayData()){
             button.setEnabled(true);
             breakfast.setEnabled(true);
@@ -110,6 +100,8 @@ public class StudentFoodActivity extends BaseCompatActivity implements StudentFo
             teatime.setChecked(false);
             lunch.setChecked(false);
             button.setBackgroundColor(Color.parseColor("#FFFFB803"));
+
+        // В ином случае элементы не кликабельны, кнопка бежевого цвета, и выводит историю (ставит галочки на чекбоксах, которые соответствуют пунктам, которые пользователь выбрал в прошлом.
         } else {
             String[] data = presenter.getData();
             button.setEnabled(false);
@@ -129,18 +121,7 @@ public class StudentFoodActivity extends BaseCompatActivity implements StudentFo
         return this;
     }
 
-    @Override
-    public void openMenu(View view) {
-        drawerLayout.openDrawer(GravityCompat.START);
-    }
-
-    @Override
-    public void showActivity(Class cl) {
-        Intent intent = new Intent(getApplicationContext(), cl);
-        intent.putExtra("UserClass", user);
-        startActivity(intent);
-    }
-
+    // Меняет цвет стрелки на серый, если история закончилось. И наоборот.
     @Override
     public void changeButton() {
         if (presenter.hasNext()) {
@@ -159,13 +140,12 @@ public class StudentFoodActivity extends BaseCompatActivity implements StudentFo
         }
     }
 
+    // Превращает выбранные элементы в 0 и 1. (Допустим, если пользователь выбрал обед и полдник, будет 0, 1, 1)
     public void sendFood(View view) {
-
         String breakfast = this.breakfast.isChecked()?"1":"0";
         String teatime = this.teatime.isChecked()?"1":"0";
         String lunch = this.lunch.isChecked()?"1":"0";
         presenter.sendFood(breakfast, teatime, lunch);
-
     }
 
     @Override

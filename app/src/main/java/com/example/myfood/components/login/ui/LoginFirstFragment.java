@@ -27,8 +27,12 @@ public class LoginFirstFragment extends Fragment {
     @Override
     public android.view.View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         android.view.View v = inflater.inflate(R.layout.fragment_login_first, container, false);
+
+        // Находит нужные элементы UI
         Button buttonSignUp = v.findViewById(R.id.button_to_choose_fragment);
         Button buttonLogIn = v.findViewById(R.id.button_to_login_fragment);
+
+        // Обработчик кликов по кнопкам.
         android.view.View.OnClickListener onClickListener = new android.view.View.OnClickListener() {
             @Override
             public void onClick(android.view.View v) {
@@ -36,6 +40,8 @@ public class LoginFirstFragment extends Fragment {
                 onClickInterface.onClick(buttonId);
             }
         };
+
+        // Вешает обработчик на сами кнопки
         buttonLogIn.setOnClickListener(onClickListener);
         buttonSignUp.setOnClickListener(onClickListener);
         return v;

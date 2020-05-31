@@ -3,7 +3,7 @@ package com.example.myfood.data.models;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class GeneralUser {
+public class UserForResponse {
 
     @SerializedName("id")
     @Expose

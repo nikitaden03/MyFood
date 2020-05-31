@@ -34,6 +34,7 @@ public class SignUpFirstTypeFragment extends Fragment implements UiContract.Frag
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_sign_up_first_type, container, false);
 
+        // Находит нужные элементы UI
         Button signUp = v.findViewById(R.id.button_sign_up);
         ImageButton backArrow = v.findViewById(R.id.sign_up_back_arrow);
 
@@ -49,6 +50,7 @@ public class SignUpFirstTypeFragment extends Fragment implements UiContract.Frag
         fioTextView = v.findViewById(R.id.sign_up_name_label);
         numberClassTextView = v.findViewById(R.id.sign_up_class_label);
 
+        // Обработчик кликов по кнопкам.
         View.OnClickListener onClickListener = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -70,41 +72,49 @@ public class SignUpFirstTypeFragment extends Fragment implements UiContract.Frag
                 }
             }
         };
+
+        // Вешает обработчик на сами кнопки
         signUp.setOnClickListener(onClickListener);
         backArrow.setOnClickListener(onClickListener);
         return v;
     }
 
+    // Выводит строку красного цвета с заданным текстом. Используется для вывода сообщений о некоректности email
     @Override
     public void showEmailAlert(String text) {
         emailTextView.setText(text);
         emailTextView.setTextColor(Color.parseColor("#f50707"));
     }
 
+    // Выводит строку красного цвета с заданным текстом. Используется для вывода сообщений о некоректности пароля
     @Override
     public void showPasswordAlert(String text) {
         passwordTextView.setText(text);
         passwordTextView.setTextColor(Color.parseColor("#f50707"));
     }
 
+    // Выводит строку красного цвета с заданным текстом. Используется для вывода сообщений о некоректности номера школы
     @Override
     public void showSchoolAlert(String text) {
         schoolTextView.setText(text);
         schoolTextView.setTextColor(Color.parseColor("#f50707"));
     }
 
+    // Выводит строку красного цвета с заданным текстом. Используется для вывода сообщений о некоректности имени
     @Override
     public void showNameAlert(String text) {
         fioTextView.setText(text);
         fioTextView.setTextColor(Color.parseColor("#f50707"));
     }
 
+    // Выводит строку красного цвета с заданным текстом. Используется для вывода сообщений о некоректности номера класса
     @Override
     public void showClassAlert(String text) {
         numberClassTextView.setText(text);
         numberClassTextView.setTextColor(Color.parseColor("#f50707"));
     }
 
+    // Прячет все строки красного цвета.
     @Override
     public void hideAlerts() {
         Resources resources = getResources();

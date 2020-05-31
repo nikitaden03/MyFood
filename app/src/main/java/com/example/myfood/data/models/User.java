@@ -24,7 +24,7 @@ public class User implements Serializable {
         this.id = id;
     }
 
-    public User(GeneralUser user) {
+    public User(UserForResponse user) {
         this.name = user.getName();
         this.school = user.getSchool();
         this.numberClass = user.getClassNum();

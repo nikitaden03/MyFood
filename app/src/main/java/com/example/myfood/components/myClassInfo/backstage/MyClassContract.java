@@ -12,7 +12,6 @@ public interface MyClassContract {
         void prepareInformMyClass(User user);
     }
     interface View extends BaseMvpView {
-        void openMenu(android.view.View view);
-        void showMyClass();
+        void showMyClass(ArrayList<Classmate> classmates);
     }
 }

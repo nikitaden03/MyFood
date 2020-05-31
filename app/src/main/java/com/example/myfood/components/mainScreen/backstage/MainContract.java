@@ -8,7 +8,6 @@ public interface MainContract {
     interface Presenter extends BaseMvpPresenter{
     }
     interface View extends BaseMvpView {
-        void openMenu(android.view.View v);
         void setUserData(User user);
     }
 }

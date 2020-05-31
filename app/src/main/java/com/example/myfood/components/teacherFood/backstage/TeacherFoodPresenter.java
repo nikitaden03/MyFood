@@ -21,32 +21,34 @@ public class TeacherFoodPresenter extends BasePresenter implements TeacherFoodCo
     private int breakfast, teatime, lunch;
     private Calendar calendar;
     private LinkedList<TreeMap<String, String[]>> data;
-    private callBackinterface callBackinterface;
+    private AsyncCallBack AsyncCallBack;
     int cursor;
 
 
     public TeacherFoodPresenter () {
         calendar = new GregorianCalendar();
         cursor = calendar.get(Calendar.DAY_OF_MONTH);
-        Log.d("MYTAG", cursor+"");
     }
 
+    // Либо возращает данные, если они уже скачены, либо скачивает данные и затем возращает
     @Override
     public void prepareData(){
-        callBackinterface = (callBackinterface) view;
+        AsyncCallBack = (AsyncCallBack) view;
 
         if (data == null) {
-            SharedPreferences sharedPreferences = ((TeacherFoodContract.View)view).getContext().getSharedPreferences("token", MODE_PRIVATE);
+            SharedPreferences sharedPreferences = view.getContext().getSharedPreferences("token", MODE_PRIVATE);
             String token = sharedPreferences.getString("token", "");
-            AsyncTaskTeacherFood taskTeacherFood = new AsyncTaskTeacherFood(callBackinterface, token);
+            AsyncTaskTeacherFood taskTeacherFood = new AsyncTaskTeacherFood(AsyncCallBack, token);
             taskTeacherFood.execute();
         } else {
-            callBackinterface.showData();
+            AsyncCallBack.showData();
         }
     }
 
+    // Возращает историю на нужный день, так как data - история в течении 1 месяца
     @Override
     public ArrayList<String[]> getData(){
+        // Если время меньш 8:00
         if (cursor == calendar.get(Calendar.DAY_OF_MONTH) && calendar.get(Calendar.HOUR_OF_DAY) < 8) {
             ArrayList<String[]> arrayList = new ArrayList<>();
             arrayList.add(new String[]{"0"});
@@ -57,6 +59,7 @@ public class TeacherFoodPresenter extends BasePresenter implements TeacherFoodCo
         lunch = 0;
         TreeMap<String, String[]> treeMap = data.get(cursor - 1);
         ArrayList<String[]> arrayList = new ArrayList<>();
+        // Если в этот день нет заявок от учеников
         if (treeMap.size() == 0) {
             arrayList.add(new String[]{"5"});
         }
@@ -84,6 +87,7 @@ public class TeacherFoodPresenter extends BasePresenter implements TeacherFoodCo
         return cursor > 1;
     }
 
+    // Возвращает номер дня в формате 00 (01, 02, 10, 12 и т.д)
     @Override
     public String getCursor() {
         if (cursor >= 1 && cursor < 10) {
@@ -102,8 +106,9 @@ public class TeacherFoodPresenter extends BasePresenter implements TeacherFoodCo
         cursor--;
     }
 
+    // Возвращает номер месяца и года в формате 00.0000 (01.2020, 02.2020, 10.2020, 12.2020 и т.д)
     @Override
-    public String getCurrentMonth() {
+    public String getCurrentMonthAndYear() {
         String answer = calendar.get(Calendar.MONTH) + 1 + "";
         if ((calendar.get(Calendar.MONTH) + 1 +  "").length() == 1) {
             answer = "0" + answer;
@@ -127,15 +132,16 @@ public class TeacherFoodPresenter extends BasePresenter implements TeacherFoodCo
 
     class AsyncTaskTeacherFood extends AsyncTask<Void, Void, LinkedList<TreeMap<String, String[]>>> {
 
-        callBackinterface callback;
+        AsyncCallBack callback;
         String token;
         ProgressDialog progressDialog;
 
-        public AsyncTaskTeacherFood(callBackinterface callback, String token) {
+        public AsyncTaskTeacherFood(AsyncCallBack callback, String token) {
             this.callback = callback;
             this.token = token;
         }
 
+        // Создает ProgressDialog, в котором находится надпись о просьбе подождать
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
@@ -146,6 +152,7 @@ public class TeacherFoodPresenter extends BasePresenter implements TeacherFoodCo
             progressDialog.show();
         }
 
+        // Удаляет ProgressDialog и возвращает дату в activity через AsyncCallBack
         @Override
         protected void onPostExecute(LinkedList<TreeMap<String, String[]>> treeMaps) {
             super.onPostExecute(treeMaps);
@@ -154,10 +161,11 @@ public class TeacherFoodPresenter extends BasePresenter implements TeacherFoodCo
             callback.showData();
         }
 
+        // В отдельном потоке вызывает функцию класса Data, которая возращает история за 1 месяц (если, допустим, сегодня 25, значит с 1 по 25)
         @Override
         protected LinkedList<TreeMap<String, String[]>> doInBackground(Void... voids) {
             Data data = Data.getInstance();
-            return data.getTeacherFood(token);
+            return data.getTeacherFood(token, view);
         }
     }
 

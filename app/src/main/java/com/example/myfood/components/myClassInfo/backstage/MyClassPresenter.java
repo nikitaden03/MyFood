@@ -17,6 +17,7 @@ import static android.content.Context.MODE_PRIVATE;
 
 public class MyClassPresenter extends BasePresenter implements MyClassContract.Presenter{
 
+    // Начинает скачку данных, посредством создания инстанса класса, наследующегося от AsyncTask-a
     @Override
     public void prepareInformMyClass(User user) {
         AsyncTaskUserInform asyncTask = new AsyncTaskUserInform(user.getINK() + "", (AsyncCallBack) view, view);
@@ -37,6 +38,7 @@ public class MyClassPresenter extends BasePresenter implements MyClassContract.P
             view = baseCompatActivity;
         }
 
+        // Создает ProgressDialog, в котором находится надпись с просьбой подождать
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
@@ -47,14 +49,16 @@ public class MyClassPresenter extends BasePresenter implements MyClassContract.P
             progressDialog.show();
         }
 
+        // Удаляет ProgressDialog и возращает данные в activity (так как она реализет интерфейс AsyncCallBack)
         @Override
         protected void onPostExecute(Integer integer) {
             super.onPostExecute(integer);
             progressDialog.dismiss();
             Log.d("MYTAG", "post execute");
-            asynCallBack.reternClassmates(classmates);
+            asynCallBack.returnClassmates(classmates);
         }
 
+        // В отдельном потоке вызывает функцию класса Data, которая будет скачивать данные о классе (в котором находится ученик или учитель).
         @Override
         protected Integer doInBackground(String... string) {
             SharedPreferences sharedPreferences = view.getContext().getSharedPreferences("token", MODE_PRIVATE);

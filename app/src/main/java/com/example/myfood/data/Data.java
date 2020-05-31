@@ -1,13 +1,12 @@
 package com.example.myfood.data;
 
 import android.content.SharedPreferences;
-import android.util.Log;
 
 import com.example.myfood.abstracts.view.BaseCompatActivity;
-import com.example.myfood.components.settings.backstage.SettingsContract;
-import com.example.myfood.components.studentFood.backstage.StudentFoodContract;
 import com.example.myfood.data.models.Classmate;
-import com.example.myfood.data.models.GeneralUser;
+import com.example.myfood.data.models.MenuForResponse;
+import com.example.myfood.data.models.UserForResponse;
+import com.example.myfood.data.models.TokenForResponse;
 import com.example.myfood.data.models.User;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -50,48 +49,58 @@ public class Data {
         return instance;
     }
 
+    // Отправляет запрос на сервер для регистрации пользоваетеля
     public int signUp(String email, String password, String name, String groupNum, String classNum, String schoolNum) {
         DataService dataService = retrofit.create(DataService.class);
         Call<Integer> call = dataService.signUp(email, password, name, groupNum, classNum, schoolNum);
+
         try {
             Response<Integer> response = call.execute();
             if (response.code() == 200) {
-                Log.d("MYTEG", response.body()+"");
                 return response.body();
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return 100;
+
+        return 103;
     }
 
-    public String logIn(String email, String password) {
+    // Отправляет запрос на сервер для авторизации пользователя
+    public Integer logIn(String email, String password, BaseCompatActivity activity) {
+
         DataService dataService = retrofit.create(DataService.class);
-        Call<String> call = dataService.logIn(email, password);
+        Call<TokenForResponse> call = dataService.logIn(email, password);
+
         try {
-            Response<String> response = call.execute();
+            Response<TokenForResponse> response = call.execute();
             if (response.code() == 200) {
-                Log.d("MYTEG", response.body()+"");
-                return response.body();
+
+                // Если пользователь ууспешно авторизовался и в ответе от сервера пришел правильный, корректный токен
+                TokenForResponse tokenForResponse = response.body();
+                if (tokenForResponse.getCodeResponse() == 200) {
+                    changeTokenText(tokenForResponse.getToken(), activity);
+                }
+                return tokenForResponse.getCodeResponse();
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return "100";
+
+        return 105;
     }
 
+    // Отправляет запрос на сервер для получения данный о пользователи
     public User getInformation(String token, BaseCompatActivity activity) {
         DataService dataService = retrofit.create(DataService.class);
-        Call<GeneralUser> call = dataService.getInformation(token);
+        Call<UserForResponse> call = dataService.getInformation(token);
         try {
-            Response<GeneralUser> response = call.execute();
+            Response<UserForResponse> response = call.execute();
             if (response.code() == 200) {
-                GeneralUser user = response.body();
+                UserForResponse user = response.body();
+                // Если токен не корректен
                 if (user.getCode() == 107) {
-                    SharedPreferences sharedPreferences = activity.getContext().getSharedPreferences("token", MODE_PRIVATE);
-                    SharedPreferences.Editor editor = sharedPreferences.edit();
-                    editor.putString("token", "");
-                    editor.apply();
+                    changeTokenText("", activity);
                     return null;
                 }
                 return new User(user);
@@ -102,6 +111,7 @@ public class Data {
         return null;
     }
 
+    // Отправляет запрос на сервер для получения списка имен одноклассников
     public ArrayList<Classmate> getClassmates (String token, String groupNum) {
         DataService dataService = retrofit.create(DataService.class);
         Call<ArrayList<Classmate>> call = dataService.getListClassmates(token, groupNum);
@@ -115,17 +125,16 @@ public class Data {
         return null;
     }
 
-    public void addPrice(int breakfast, int teatime, int lunch, String token, SettingsContract.View activity) {
+    // Отправляет запрос на сервер для изменения цены
+    public void addPrice(int breakfast, int teatime, int lunch, String token, BaseCompatActivity activity) {
         DataService dataService = retrofit.create(DataService.class);
         Call<Integer> call = dataService.addPrice(breakfast, teatime, lunch, token);
         try {
-            Response response = call.execute();
+            Response<Integer> response = call.execute();
             if (response.code() == 200) {
-                if ((int)response.body() == 107) {
-                    SharedPreferences sharedPreferences = activity.getContext().getSharedPreferences("token", MODE_PRIVATE);
-                    SharedPreferences.Editor editor = sharedPreferences.edit();
-                    editor.putString("token", "");
-                    editor.apply();
+                // Если токен не корректен
+                if (response.body() == 107) {
+                    changeTokenText("", activity);
                 }
             }
         } catch (IOException e) {
@@ -133,17 +142,24 @@ public class Data {
         }
     }
 
-    public LinkedList<TreeMap<String, String[]>> getTeacherFood (String token) {
+    // Отправляет запрос на сервер для получения истории заявок от учеников
+    public LinkedList<TreeMap<String, String[]>> getTeacherFood (String token, BaseCompatActivity activity) {
         DataService dataService = retrofit.create(DataService.class);
-        Call<LinkedList<TreeMap<String, String[]>>> call = dataService.getTeacherFood(token);
+        Call<MenuForResponse> call = dataService.getTeacherFood(token);
         try {
-            Response<LinkedList<TreeMap<String, String[]>>> response = call.execute();
+            Response<MenuForResponse> response = call.execute();
             if (response.code() == 200) {
-                return response.body();
+                MenuForResponse menuForResponse = response.body();
+                if (menuForResponse.getCode() == 107) {
+                    changeTokenText("", activity);
+                }
+                return menuForResponse.getTeacherList();
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        // Если что-то произошло с данными от сервера, создает заглушку в виде пустого списка
         Calendar calendar = new GregorianCalendar();
         int day = calendar.get(Calendar.DAY_OF_MONTH);
         LinkedList<TreeMap<String, String[]>> linkedList = new LinkedList<>();
@@ -154,17 +170,24 @@ public class Data {
         return linkedList;
     }
 
-    public LinkedList<String[]> getStudentFood (String token) {
+    // Отправляет запрос на сервер для получения истории заявок от самого ученика
+    public LinkedList<String[]> getStudentFood (String token, BaseCompatActivity activity) {
         DataService dataService = retrofit.create(DataService.class);
-        Call<LinkedList<String[]>> call = dataService.getStudentFood(token);
+        Call<MenuForResponse> call = dataService.getStudentFood(token);
         try {
-            Response<LinkedList<String[]>> response = call.execute();
+            Response<MenuForResponse> response = call.execute();
             if (response.code() == 200) {
-                return response.body();
+                MenuForResponse menuForResponse = response.body();
+                if (menuForResponse.getCode() == 107) {
+                    changeTokenText("", activity);
+                }
+                return menuForResponse.getStudentList();
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        // Если что-то произошло с данными от сервера, создает заглушку в виде пустого списка
         Calendar calendar = new GregorianCalendar();
         int day = calendar.get(Calendar.DAY_OF_MONTH);
         LinkedList<String[]> linkedList = new LinkedList<>();
@@ -174,17 +197,15 @@ public class Data {
         return linkedList;
     }
 
-    public Integer sendStudentFood (String breakfast, String teatime, String lunch, String token, StudentFoodContract.View activity) {
+    // Отправляет запрос на сервер с заявкой на текущий день от пользователя
+    public Integer sendStudentFood (String breakfast, String teatime, String lunch, String token, BaseCompatActivity activity) {
         DataService dataService = retrofit.create(DataService.class);
         Call<Integer> call = dataService.sendStudentFood(breakfast, teatime, lunch, token);
         try {
             Response<Integer> response = call.execute();
             if (response.code() == 200) {
                 if (response.body() == 107) {
-                    SharedPreferences sharedPreferences = activity.getContext().getSharedPreferences("token", MODE_PRIVATE);
-                    SharedPreferences.Editor editor = sharedPreferences.edit();
-                    editor.putString("token", "");
-                    editor.apply();
+                    changeTokenText("", activity);
                 }
                 return response.body();
             }
@@ -192,5 +213,12 @@ public class Data {
             e.printStackTrace();
         }
         return 107;
+    }
+
+    private void changeTokenText(String text, BaseCompatActivity activity) {
+        SharedPreferences sharedPreferences = activity.getContext().getSharedPreferences("token", MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString("token", text);
+        editor.apply();
     }
 }

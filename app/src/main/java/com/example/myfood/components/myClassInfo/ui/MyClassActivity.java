@@ -26,11 +26,8 @@ import com.google.android.material.navigation.NavigationView;
 
 import java.util.ArrayList;
 
-public class MyClassActivity extends BaseCompatActivity implements MyClassContract.View, MenuContract, AsyncCallBack {
+public class MyClassActivity extends BaseCompatActivity implements MyClassContract.View, AsyncCallBack {
 
-    DrawerLayout drawerLayout;
-    NavigationView navigationView;
-    User user;
     MyClassPresenter presenter;
 
     @Override
@@ -38,51 +35,32 @@ public class MyClassActivity extends BaseCompatActivity implements MyClassContra
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_class);
 
+        // Это требуется, если пользователь вышел из аккаунта и случайно попал в эту activity
         checkSession();
 
+        // Достает данные о пользователи, которые были загружены ранее
+        user = (User)getIntent().getSerializableExtra("UserClass");
+
+        // Находит нужный presenter и прикрепляется к нему
         presenter = new MyClassPresenter();
         presenter.attach(this);
 
-        drawerLayout = findViewById(R.id.main_drawer_layout);
-        navigationView = findViewById(R.id.navigationView);
-        user = (User)getIntent().getSerializableExtra("UserClass");
-        final NavigationListener navigationListener = new NavigationListener(this);
-        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                navigationListener.onNavigationItemSelected(item, getApplicationContext());
-                return false;
-            }
-        });
-
+        // Выводит название школы и номер класса
         ((TextView)findViewById(R.id.classInfo_label)).setText("Школа " + user.getSchool() + ", " + user.getNumberClass());
 
-        if (user.isChargable()) {
-            ((NavigationView)findViewById(R.id.navigationView)).inflateMenu(R.menu.drawer_menu_first_type);
-        } else {
-            ((NavigationView)findViewById(R.id.navigationView)).inflateMenu(R.menu.drawer_menu_second_type);
-        }
-        showMyClass();
-    }
+        // Находит нужные элементы UI
+        drawerLayout = findViewById(R.id.main_drawer_layout);
+        navigationView = findViewById(R.id.navigationView);
 
-    @Override
-    public void showActivity(Class cl) {
-        Intent intent = new Intent(getApplicationContext(), cl);
-        intent.putExtra("UserClass", user);
-        startActivity(intent);
-    }
+        // Настраивает работу бокового меню
+        installMenu();
 
-    @Override
-    public void openMenu(View view) {
-        drawerLayout.openDrawer(GravityCompat.START);
-    }
-
-    @Override
-    public void showMyClass() {
         presenter.prepareInformMyClass(user);
     }
 
-    public void showMyClass2(ArrayList<Classmate> classmates) {
+    // Заполняет ListView данными, которые были получены из presenter-a
+    @Override
+    public void showMyClass(ArrayList<Classmate> classmates) {
         ListView listView = findViewById(R.id.classInfo_list_view);
         String name;
         ArrayList<String> arrayList1 = new ArrayList<>();
@@ -113,7 +91,7 @@ public class MyClassActivity extends BaseCompatActivity implements MyClassContra
     }
 
     @Override
-    public void reternClassmates(ArrayList<Classmate> classmates) {
-        showMyClass2(classmates);
+    public void returnClassmates(ArrayList<Classmate> classmates) {
+        showMyClass(classmates);
     }
 }

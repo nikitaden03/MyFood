@@ -9,7 +9,6 @@ import com.example.myfood.data.models.User;
 public interface SettingsContract  {
     interface Presenter extends BaseMvpPresenter {
         void onClick(android.view.View view);
-        void getAsyncTaskResult(int i);
     }
     interface View extends BaseMvpView {
         void openMenu(android.view.View view);

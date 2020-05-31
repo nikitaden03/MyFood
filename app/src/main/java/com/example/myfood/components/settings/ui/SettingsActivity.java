@@ -24,11 +24,8 @@ import com.example.myfood.components.settings.backstage.SettingsPresenter;
 import com.example.myfood.data.models.User;
 import com.google.android.material.navigation.NavigationView;
 
-public class SettingsActivity extends BaseCompatActivity implements SettingsContract.View, MenuContract {
+public class SettingsActivity extends BaseCompatActivity implements SettingsContract.View {
 
-    DrawerLayout drawerLayout;
-    NavigationView navigationView;
-    User user;
     EditText priceBreakfast, priceLunch, priceTeatime;
     TextView priceBreakfastText, priceLunchText, priceTeatimeText;
     SettingsPresenter presenter;
@@ -38,35 +35,30 @@ public class SettingsActivity extends BaseCompatActivity implements SettingsCont
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
 
+        // Это требуется, если пользователь вышел из аккаунта и случайно попал в эту activity
         checkSession();
 
+        // Находит нужный presenter и прикрепляется к нему
         presenter = new SettingsPresenter();
         presenter.attach(this);
 
-        drawerLayout = findViewById(R.id.main_drawer_layout);
-        navigationView = findViewById(R.id.navigationView);
+        // Достает данные о пользователи, которые были загружены ранее
         user = (User)getIntent().getSerializableExtra("UserClass");
+
+        // Находит нужные элементы UI
         priceBreakfast = findViewById(R.id.settings_price_breakfast);
         priceLunch = findViewById(R.id.settings_price_lunch);
         priceTeatime = findViewById(R.id.settings_price_teatime);
         priceBreakfastText = findViewById(R.id.settings_price_breakfast_label);
         priceLunchText = findViewById(R.id.settings_price_lunch_label);
         priceTeatimeText = findViewById(R.id.settings_price_teatime_label);
+        drawerLayout = findViewById(R.id.main_drawer_layout);
+        navigationView = findViewById(R.id.navigationView);
 
-        final NavigationListener navigationListener = new NavigationListener(this);
-        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                navigationListener.onNavigationItemSelected(item, getApplicationContext());
-                return false;
-            }
-        });
-        if (user.isChargable()) {
-            ((NavigationView)findViewById(R.id.navigationView)).inflateMenu(R.menu.drawer_menu_first_type);
-        } else {
-            ((NavigationView)findViewById(R.id.navigationView)).inflateMenu(R.menu.drawer_menu_second_type);
-        }
+        // Настраивает работу бокового меню
+        installMenu();
 
+        // Если тип аккаунта пользователя не "Дежурный", блокирует изменение цен.
         if (!user.isChargable()) {
             priceBreakfast.setEnabled(false);
             priceTeatime.setEnabled(false);
@@ -88,18 +80,7 @@ public class SettingsActivity extends BaseCompatActivity implements SettingsCont
         startActivity(new Intent(this, CheckActivity.class));
     }
 
-    @Override
-    public void openMenu(View view) {
-        drawerLayout.openDrawer(GravityCompat.START);
-    }
-
-    @Override
-    public void showActivity(Class cl) {
-        Intent intent = new Intent(getApplicationContext(), cl);
-        intent.putExtra("UserClass", user);
-        startActivity(intent);
-    }
-
+    // Устанавливает цены на питание в нужные EditText-ы
     @Override
     public void setPriceData(User user) {
         priceBreakfast.setText(user.getPriceBreakfast() + "р");
@@ -107,6 +88,7 @@ public class SettingsActivity extends BaseCompatActivity implements SettingsCont
         priceTeatime.setText(user.getPriceTeatime() + "р");
     }
 
+    // Передает нажатия на кнопки обработчику, который находится в presenter-e
     @Override
     public void onClick(View view) {
         presenter.onClick(view);
@@ -127,24 +109,28 @@ public class SettingsActivity extends BaseCompatActivity implements SettingsCont
         return priceTeatime.getText().toString();
     }
 
+    // Выводит строку красного цвета с заданным текстом. Используется для вывода сообщений о некорректности ценны
     @Override
     public void showBreakfastPriceAlert(String text) {
         priceBreakfastText.setText(text);
         priceBreakfastText.setTextColor(Color.parseColor("#f50707"));
     }
 
+    // Выводит строку красного цвета с заданным текстом. Используется для вывода сообщений о некорректности ценны
     @Override
     public void showLunchPriceAlert(String text) {
         priceLunchText.setText(text);
         priceLunchText.setTextColor(Color.parseColor("#f50707"));
     }
 
+    // Выводит строку красного цвета с заданным текстом. Используется для вывода сообщений о некорректности ценны
     @Override
     public void showTeatimePriceAlert(String text) {
         priceTeatimeText.setText(text);
         priceTeatimeText.setTextColor(Color.parseColor("#f50707"));
     }
 
+    // Прячет все строки красного цвета.
     @Override
     public void hideAllAlerts() {
         Resources resources = getResources();
@@ -161,6 +147,7 @@ public class SettingsActivity extends BaseCompatActivity implements SettingsCont
         return user;
     }
 
+    // Изменяет цены на питание в инстансе класса User. Отличается от setPriceData(User user).
     @Override
     public void setPricesData(int a, int b, int c) {
         user.setPriceBreakfast(a);

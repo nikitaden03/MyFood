@@ -19,8 +19,7 @@ public interface LoginContract {
         void showSignUpFirstTypeFragment();
         void showSignUpSecondTypeFragment();
         void showSignUpFirstFragment();
-        void nextSceenAfterLogIn(String string);
-        void nextSceenAfterSignUp();
+        void ReloadApp();
         Fragment getFragmentNow();
         Fragment getFragment3();
     }

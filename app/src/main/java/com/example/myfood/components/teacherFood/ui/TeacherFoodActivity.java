@@ -1,7 +1,6 @@
 package com.example.myfood.components.teacherFood.ui;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -14,26 +13,21 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.example.myfood.R;
 import com.example.myfood.abstracts.view.BaseCompatActivity;
-import com.example.myfood.components.menu.MenuContract;
 import com.example.myfood.components.menu.NavigationListener;
 import com.example.myfood.components.teacherFood.backstage.TeacherFoodContract;
 import com.example.myfood.components.teacherFood.backstage.TeacherFoodPresenter;
-import com.example.myfood.components.teacherFood.backstage.callBackinterface;
+import com.example.myfood.components.teacherFood.backstage.AsyncCallBack;
 import com.example.myfood.data.models.User;
 import com.google.android.material.navigation.NavigationView;
 
 import java.util.ArrayList;
 
-public class TeacherFoodActivity extends BaseCompatActivity implements TeacherFoodContract.View, MenuContract, callBackinterface {
+public class TeacherFoodActivity extends BaseCompatActivity implements TeacherFoodContract.View, AsyncCallBack {
 
-    DrawerLayout drawerLayout;
-    NavigationView navigationView;
-    User user;
     ListView listView;
     TeacherFoodPresenter presenter;
     ImageButton back, next;
@@ -42,34 +36,28 @@ public class TeacherFoodActivity extends BaseCompatActivity implements TeacherFo
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_teacher_food);
-        presenter = new TeacherFoodPresenter();
-        presenter.attach(this);
-        presenter.prepareData();
+
+        // Это требуется, если пользователь вышел из аккаунта и случайно попал в эту activity
         checkSession();
 
-        drawerLayout = findViewById(R.id.main_drawer_layout);
-        navigationView = findViewById(R.id.navigationView);
+        // Достает данные о пользователе, которые были загружены ранее
         user = (User)getIntent().getSerializableExtra("UserClass");
 
-        final NavigationListener navigationListener = new NavigationListener(this);
-        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                navigationListener.onNavigationItemSelected(item, getApplicationContext());
-                return false;
-            }
-        });
-        if (user.isChargable()) {
-            ((NavigationView)findViewById(R.id.navigationView)).inflateMenu(R.menu.drawer_menu_first_type);
-        } else {
-            ((NavigationView)findViewById(R.id.navigationView)).inflateMenu(R.menu.drawer_menu_second_type);
-        }
+        // Находит нужный presenter и прикрепляется к нему
+        presenter = new TeacherFoodPresenter();
+        presenter.attach(this);
 
+        // Находит нужные элементы UI
         listView = findViewById(R.id.food_list_view);
-
         back = findViewById(R.id.food_previous_button);
         next = findViewById(R.id.food_next_button);
+        drawerLayout = findViewById(R.id.main_drawer_layout);
+        navigationView = findViewById(R.id.navigationView);
 
+        // Настраивает работу бокового меню
+        installMenu();
+
+        // Обработчик кликов по кнопкам для просмотра истории
         View.OnClickListener onClickListener = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -85,8 +73,12 @@ public class TeacherFoodActivity extends BaseCompatActivity implements TeacherFo
             }
         };
 
+        // Вешает обработчик на сами кнопки
         back.setOnClickListener(onClickListener);
         next.setOnClickListener(onClickListener);
+
+        //Подготавливает данные для отображения
+        presenter.prepareData();
     }
 
     @Override
@@ -94,28 +86,20 @@ public class TeacherFoodActivity extends BaseCompatActivity implements TeacherFo
         return this;
     }
 
-    @Override
-    public void showActivity(Class cl) {
-        Intent intent = new Intent(getApplicationContext(), cl);
-        intent.putExtra("UserClass", user);
-        startActivity(intent);
-    }
-
-    @Override
-    public void openMenu(View view) {
-        drawerLayout.openDrawer(GravityCompat.START);
-    }
-
+    // Выводит историю на экран
     @Override
     public void setFoodList() {
         ArrayList<String[]> data = presenter.getData();
-        ((TextView) findViewById(R.id.food_data)).setText(presenter.getCursor() + "." + presenter.getCurrentMonth());
+        ((TextView) findViewById(R.id.food_data)).setText(presenter.getCursor() + "." + presenter.getCurrentMonthAndYear());
+
+        // Если массив пустой (до 8:00)
         if (data.get(0)[0].equals("0")) {
             listView.setVisibility(View.GONE);
             findViewById(R.id.food_alert).setVisibility(View.VISIBLE);
             findViewById(R.id.food_count).setVisibility(View.GONE);
             findViewById(R.id.food_line).setVisibility(View.GONE);
         } else {
+            // Если массив пустой (никто не подал заявку)
             if (data.get(0)[0].equals("5")) data = new ArrayList<>();
             listView.setVisibility(View.VISIBLE);
             findViewById(R.id.food_alert).setVisibility(View.GONE);
@@ -128,6 +112,7 @@ public class TeacherFoodActivity extends BaseCompatActivity implements TeacherFo
         changeButton();
     }
 
+    // Меняет цвет стрелки на серый, если история закончилось. И наоборот.
     @Override
     public void changeButton() {
         if (presenter.hasNext()) {
