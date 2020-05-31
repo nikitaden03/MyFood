@@ -3,7 +3,6 @@ package com.example.myfood.components.teacherFood.ui;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -13,18 +12,17 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.example.myfood.R;
 import com.example.myfood.abstracts.view.BaseCompatActivity;
-import com.example.myfood.components.menu.NavigationListener;
+import com.example.myfood.components.teacherFood.backstage.AsyncCallBack;
 import com.example.myfood.components.teacherFood.backstage.TeacherFoodContract;
 import com.example.myfood.components.teacherFood.backstage.TeacherFoodPresenter;
-import com.example.myfood.components.teacherFood.backstage.AsyncCallBack;
 import com.example.myfood.data.models.User;
-import com.google.android.material.navigation.NavigationView;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.TreeMap;
 
 public class TeacherFoodActivity extends BaseCompatActivity implements TeacherFoodContract.View, AsyncCallBack {
 
@@ -146,6 +144,11 @@ public class TeacherFoodActivity extends BaseCompatActivity implements TeacherFo
     @Override
     public void showData() {
         setFoodList();
+    }
+
+    @Override
+    public void setData(LinkedList<TreeMap<String, String[]>> treeMaps) {
+        presenter.setData(treeMaps);
     }
 
     class MyAdapter extends ArrayAdapter<String[]> {

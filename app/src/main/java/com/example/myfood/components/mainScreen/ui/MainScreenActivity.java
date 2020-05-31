@@ -2,19 +2,13 @@ package com.example.myfood.components.mainScreen.ui;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.view.MenuItem;
 import android.widget.TextView;
-
-import androidx.annotation.NonNull;
-import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.example.myfood.R;
 import com.example.myfood.abstracts.view.BaseCompatActivity;
-import com.example.myfood.components.menu.NavigationListener;
 import com.example.myfood.components.mainScreen.backstage.MainContract;
 import com.example.myfood.components.mainScreen.backstage.MainPresenter;
 import com.example.myfood.data.models.User;
-import com.google.android.material.navigation.NavigationView;
 
 public class MainScreenActivity extends BaseCompatActivity implements MainContract.View {
 

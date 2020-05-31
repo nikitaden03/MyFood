@@ -5,24 +5,16 @@ import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
-import androidx.core.view.GravityCompat;
-import androidx.drawerlayout.widget.DrawerLayout;
-
 import com.example.myfood.CheckActivity;
 import com.example.myfood.R;
 import com.example.myfood.abstracts.view.BaseCompatActivity;
-import com.example.myfood.components.menu.MenuContract;
-import com.example.myfood.components.menu.NavigationListener;
 import com.example.myfood.components.settings.backstage.SettingsContract;
 import com.example.myfood.components.settings.backstage.SettingsPresenter;
 import com.example.myfood.data.models.User;
-import com.google.android.material.navigation.NavigationView;
 
 public class SettingsActivity extends BaseCompatActivity implements SettingsContract.View {
 

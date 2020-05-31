@@ -1,12 +1,8 @@
 package com.example.myfood.components.teacherFood.backstage;
 
-import android.app.ProgressDialog;
 import android.content.SharedPreferences;
-import android.os.AsyncTask;
-import android.util.Log;
 
 import com.example.myfood.abstracts.presenter.BasePresenter;
-import com.example.myfood.data.Data;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -21,7 +17,7 @@ public class TeacherFoodPresenter extends BasePresenter implements TeacherFoodCo
     private int breakfast, teatime, lunch;
     private Calendar calendar;
     private LinkedList<TreeMap<String, String[]>> data;
-    private AsyncCallBack AsyncCallBack;
+    private AsyncCallBack asyncCallBack;
     int cursor;
 
 
@@ -33,15 +29,15 @@ public class TeacherFoodPresenter extends BasePresenter implements TeacherFoodCo
     // Либо возращает данные, если они уже скачены, либо скачивает данные и затем возращает
     @Override
     public void prepareData(){
-        AsyncCallBack = (AsyncCallBack) view;
+        asyncCallBack = (AsyncCallBack) view;
 
         if (data == null) {
             SharedPreferences sharedPreferences = view.getContext().getSharedPreferences("token", MODE_PRIVATE);
             String token = sharedPreferences.getString("token", "");
-            AsyncTaskTeacherFood taskTeacherFood = new AsyncTaskTeacherFood(AsyncCallBack, token);
-            taskTeacherFood.execute();
+            AsyncGetTeacherFood asyncGetTeacherFood = new AsyncGetTeacherFood(asyncCallBack, token, view);
+            asyncGetTeacherFood.execute();
         } else {
-            AsyncCallBack.showData();
+            asyncCallBack.showData();
         }
     }
 
@@ -130,44 +126,8 @@ public class TeacherFoodPresenter extends BasePresenter implements TeacherFoodCo
         return lunch;
     }
 
-    class AsyncTaskTeacherFood extends AsyncTask<Void, Void, LinkedList<TreeMap<String, String[]>>> {
-
-        AsyncCallBack callback;
-        String token;
-        ProgressDialog progressDialog;
-
-        public AsyncTaskTeacherFood(AsyncCallBack callback, String token) {
-            this.callback = callback;
-            this.token = token;
-        }
-
-        // Создает ProgressDialog, в котором находится надпись о просьбе подождать
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            progressDialog = new ProgressDialog(view);
-            progressDialog.setTitle("Пожалуйста, подождите");
-            progressDialog.setMessage("Ведется соединение с сервером!");
-            progressDialog.setCancelable(false);
-            progressDialog.show();
-        }
-
-        // Удаляет ProgressDialog и возвращает дату в activity через AsyncCallBack
-        @Override
-        protected void onPostExecute(LinkedList<TreeMap<String, String[]>> treeMaps) {
-            super.onPostExecute(treeMaps);
-            data = treeMaps;
-            progressDialog.dismiss();
-            callback.showData();
-        }
-
-        // В отдельном потоке вызывает функцию класса Data, которая возращает история за 1 месяц (если, допустим, сегодня 25, значит с 1 по 25)
-        @Override
-        protected LinkedList<TreeMap<String, String[]>> doInBackground(Void... voids) {
-            Data data = Data.getInstance();
-            return data.getTeacherFood(token, view);
-        }
+    public void setData(LinkedList<TreeMap<String, String[]>> data) {
+        this.data = data;
     }
-
 }
 

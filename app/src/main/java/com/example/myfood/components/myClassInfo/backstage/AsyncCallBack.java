@@ -1,9 +1,7 @@
 package com.example.myfood.components.myClassInfo.backstage;
 
-import com.example.myfood.data.models.Classmate;
-
 import java.util.ArrayList;
 
 public interface AsyncCallBack {
-    void returnClassmates(ArrayList<Classmate> classmates);
+    void returnClassmates(ArrayList<String> classmates);
 }

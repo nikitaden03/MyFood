@@ -95,8 +95,8 @@ public class SettingsPresenter extends BasePresenter implements SettingsContract
                 String token = sharedPreferences.getString("token", "");
 
                 // Изменяет цену на сервере
-                AsyncTasks asyncTasks = new AsyncTasks(this, breakfastNum, teatimeNum, lunchNum, token, this.view);
-                asyncTasks.execute();
+                AsyncSettings asyncSettings = new AsyncSettings( breakfastNum, teatimeNum, lunchNum, token, this.view);
+                asyncSettings.execute();
 
                 break;
 
@@ -108,50 +108,6 @@ public class SettingsPresenter extends BasePresenter implements SettingsContract
                 editor.apply();
                 activity.leaveAccount();
                 break;
-        }
-    }
-
-    class AsyncTasks extends AsyncTask<String, Void, Void> {
-
-        ProgressDialog progressDialog;
-        SettingsContract.Presenter asynCallBack;
-        int breakfast, teatime, lunch;
-        String token;
-        BaseCompatActivity baseCompatActivity;
-
-        AsyncTasks(SettingsContract.Presenter asynCallBack, int breakfast, int teatime, int lunch, String token, BaseCompatActivity baseCompatActivity) {
-            this.asynCallBack = asynCallBack;
-            this.breakfast = breakfast;
-            this.teatime = teatime;
-            this.lunch = lunch;
-            this.token = token;
-            this.baseCompatActivity = baseCompatActivity;
-        }
-
-        // Создает ProgressDialog, в котором находится надпись о просьбе подождать
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            progressDialog = new ProgressDialog(view);
-            progressDialog.setTitle("Пожалуйста, подождите");
-            progressDialog.setMessage("Ведется соединение с сервером!");
-            progressDialog.setCancelable(false);
-            progressDialog.show();
-        }
-
-        // В отдельном потоке вызывает функцию класса Data, которая изменяет цены питания на сервере.
-        @Override
-        protected Void doInBackground(String... strings) {
-            Data data = Data.getInstance();
-            data.addPrice(breakfast, teatime, lunch, token, baseCompatActivity);
-            return null;
-        }
-
-        // Удаляет ProgressDialog
-        @Override
-        protected void onPostExecute(Void aVoid) {
-            super.onPostExecute(aVoid);
-            progressDialog.dismiss();
         }
     }
 }

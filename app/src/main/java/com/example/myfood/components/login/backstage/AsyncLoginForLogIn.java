@@ -2,11 +2,9 @@ package com.example.myfood.components.login.backstage;
 
 import android.app.ProgressDialog;
 import android.os.AsyncTask;
-import android.util.Log;
 
 import com.example.myfood.abstracts.view.BaseCompatActivity;
 import com.example.myfood.data.Data;
-import com.example.myfood.data.models.TokenForResponse;
 
 class AsyncLoginForLogIn extends AsyncTask<String, Void, Integer> {
 

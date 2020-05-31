@@ -61,8 +61,8 @@ public class LoginPresenter extends BasePresenter implements LoginContract.Prese
             return;
         }
 
-        AsyncLoginForLogIn asyncLogin = new AsyncLoginForLogIn(this, view, email, password);
-        asyncLogin.execute();
+        AsyncLoginForLogIn asyncLoginForLogIn = new AsyncLoginForLogIn(this, view, email, password);
+        asyncLoginForLogIn.execute();
     }
 
     //Регистрация пользователя с типом аккаунта Дежурный
@@ -99,8 +99,8 @@ public class LoginPresenter extends BasePresenter implements LoginContract.Prese
             return;
         }
 
-        AsyncLoginForSignUP asyncSingUpFirst = new AsyncLoginForSignUP(this, view, email, password, name, "", numberClass, school);
-        asyncSingUpFirst.execute();
+        AsyncLoginForSignUP asyncLoginForSignUP = new AsyncLoginForSignUP(this, view, email, password, name, "", numberClass, school);
+        asyncLoginForSignUP.execute();
     }
 
     //Регистрация пользователя с типом аккаунта Питающийся
@@ -131,8 +131,8 @@ public class LoginPresenter extends BasePresenter implements LoginContract.Prese
             return;
         }
 
-        AsyncLoginForSignUP asyncSingUpSecond = new AsyncLoginForSignUP(this, view, email, password, name, ink, "", "");
-        asyncSingUpSecond.execute();
+        AsyncLoginForSignUP asyncLoginForSignUP = new AsyncLoginForSignUP(this, view, email, password, name, ink, "", "");
+        asyncLoginForSignUP.execute();
     }
 
     // Обрабатывает ответ от AsyncLoginForSignUP

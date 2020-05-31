@@ -1,13 +1,7 @@
 package com.example.myfood.components.myINK.ui;
 
-import androidx.annotation.NonNull;
-import androidx.core.view.GravityCompat;
-import androidx.drawerlayout.widget.DrawerLayout;
-
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -15,12 +9,9 @@ import android.widget.Toast;
 
 import com.example.myfood.R;
 import com.example.myfood.abstracts.view.BaseCompatActivity;
-import com.example.myfood.components.menu.MenuContract;
-import com.example.myfood.components.menu.NavigationListener;
 import com.example.myfood.components.myINK.backstage.MyInkContract;
 import com.example.myfood.components.myINK.backstage.MyInkPresenter;
 import com.example.myfood.data.models.User;
-import com.google.android.material.navigation.NavigationView;
 
 public class MyInkActivity extends BaseCompatActivity implements MyInkContract.View{
 

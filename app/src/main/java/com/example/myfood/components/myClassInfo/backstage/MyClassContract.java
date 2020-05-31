@@ -2,7 +2,6 @@ package com.example.myfood.components.myClassInfo.backstage;
 
 import com.example.myfood.abstracts.presenter.BaseMvpPresenter;
 import com.example.myfood.abstracts.view.BaseMvpView;
-import com.example.myfood.data.models.Classmate;
 import com.example.myfood.data.models.User;
 
 import java.util.ArrayList;
@@ -12,6 +11,6 @@ public interface MyClassContract {
         void prepareInformMyClass(User user);
     }
     interface View extends BaseMvpView {
-        void showMyClass(ArrayList<Classmate> classmates);
+        void showMyClass(ArrayList<String> classmates);
     }
 }

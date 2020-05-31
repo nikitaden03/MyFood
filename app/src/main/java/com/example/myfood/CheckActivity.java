@@ -7,7 +7,6 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 
-
 import com.example.myfood.abstracts.view.BaseCompatActivity;
 import com.example.myfood.components.login.ui.LogInActivity;
 import com.example.myfood.components.mainScreen.ui.MainScreenActivity;

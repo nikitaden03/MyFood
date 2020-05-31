@@ -3,11 +3,10 @@ package com.example.myfood.data;
 import android.content.SharedPreferences;
 
 import com.example.myfood.abstracts.view.BaseCompatActivity;
-import com.example.myfood.data.models.Classmate;
 import com.example.myfood.data.models.MenuForResponse;
-import com.example.myfood.data.models.UserForResponse;
 import com.example.myfood.data.models.TokenForResponse;
 import com.example.myfood.data.models.User;
+import com.example.myfood.data.models.UserForResponse;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -87,7 +86,7 @@ public class Data {
             e.printStackTrace();
         }
 
-        return 105;
+        return 107;
     }
 
     // Отправляет запрос на сервер для получения данный о пользователи
@@ -112,12 +111,12 @@ public class Data {
     }
 
     // Отправляет запрос на сервер для получения списка имен одноклассников
-    public ArrayList<Classmate> getClassmates (String token, String groupNum) {
+    public ArrayList<String> getClassmates (String token, String groupNum) {
         DataService dataService = retrofit.create(DataService.class);
-        Call<ArrayList<Classmate>> call = dataService.getListClassmates(token, groupNum);
+        Call<ArrayList<String>> call = dataService.getListClassmates(token, groupNum);
         try {
-            Response response = call.execute();
-            ArrayList<Classmate> classmates = (ArrayList<Classmate>) response.body();
+            Response<ArrayList<String>> response = call.execute();
+            ArrayList<String> classmates = response.body();
             return classmates;
         } catch (Exception e) {
             e.printStackTrace();
@@ -145,7 +144,7 @@ public class Data {
     // Отправляет запрос на сервер для получения истории заявок от учеников
     public LinkedList<TreeMap<String, String[]>> getTeacherFood (String token, BaseCompatActivity activity) {
         DataService dataService = retrofit.create(DataService.class);
-        Call<MenuForResponse> call = dataService.getTeacherFood(token);
+        Call<MenuForResponse> call = dataService.getFood(token);
         try {
             Response<MenuForResponse> response = call.execute();
             if (response.code() == 200) {
@@ -173,7 +172,7 @@ public class Data {
     // Отправляет запрос на сервер для получения истории заявок от самого ученика
     public LinkedList<String[]> getStudentFood (String token, BaseCompatActivity activity) {
         DataService dataService = retrofit.create(DataService.class);
-        Call<MenuForResponse> call = dataService.getStudentFood(token);
+        Call<MenuForResponse> call = dataService.getFood(token);
         try {
             Response<MenuForResponse> response = call.execute();
             if (response.code() == 200) {
